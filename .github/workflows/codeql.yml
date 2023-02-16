@@ -22,8 +22,6 @@ jobs:
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
-        with:
-          languages: java
 
       - uses: actions/checkout@v3
       - name: Install Java
