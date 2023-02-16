@@ -20,9 +20,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-
       - uses: actions/checkout@v3
       - name: Install Java
         run: sudo apt install openjdk-17-jdk
