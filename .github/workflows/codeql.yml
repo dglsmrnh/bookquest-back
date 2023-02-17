@@ -21,6 +21,9 @@ jobs:
       - name: Install Java
         run: sudo apt install openjdk-17-jdk
 
+      - name: print java version
+        run: java --version
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
