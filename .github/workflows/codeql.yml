@@ -36,6 +36,9 @@ jobs:
 
       - name: Install Gradle
         run: sudo apt install gradle
+        
+      - name: Gradle Version
+        run: gradle --version
 
       - name: Build with Gradle
         run: gradle build
