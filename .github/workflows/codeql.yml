@@ -26,8 +26,14 @@ jobs:
         with:
           languages: java
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v1
+      - name: Install Gradle
+        run: sudo apt install gradle
+
+      - name: Build with Gradle
+        run: gradle clean build
+
+      - name: apt update
+        run:  sudo apt-get update
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
