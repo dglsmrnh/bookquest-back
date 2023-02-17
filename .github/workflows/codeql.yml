@@ -34,14 +34,12 @@ jobs:
       - name: print java
         run: java --version
 
-      - name: Install Gradle
-        run: sudo apt install gradle
-        
-      - name: Gradle Version
-        run: gradle --version
-
-      - name: Build with Gradle
-        run: gradle build
+      - name: Gradle Build Action
+        # You may pin to the exact commit or the version.
+        # uses: gradle/gradle-build-action@3fbe033aaae657f011f88f29be9e65ed26bd29ef
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-version: 8.0
 
       - name: apt update
         run:  sudo apt-get update
