@@ -1,5 +1,8 @@
 package io.bookquest.usecase;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bookquest.entrypoint.v1.dto.BookDataTransfer;
 import io.bookquest.entrypoint.v1.integration.chatsonic.ChatSonicClient;
 import io.bookquest.entrypoint.v1.integration.chatsonic.dto.ChatSonicDataTransfer;
@@ -29,10 +32,6 @@ public class BookService {
     @Autowired
     private OpenLibraryClient openLibraryClient;
 
-
-    @Autowired
-    private ChatSonicClient chatSonicClient;
-
     @Autowired
     private BookRepository repository;
 
@@ -41,7 +40,7 @@ public class BookService {
         return BookMapper.toDto(processBook(isbn, title));
     }
     public Book processBook(String isbn, String title) {
-        chatSonicClient.aiSearch("1eea86b6-834e-40c5-b1ca-181a8abadaa2", new ChatSonicDataTransfer("me faça 5 perguntas no formato de alternativa com as respostas certas do livro O hobbit"));
+
         if (nonNull(title)) {
             return repository.findByBookNameIgnoreCase(title)
                     .stream().findFirst()
