@@ -1,0 +1,13 @@
+name:
+  Stop application
+ 
+on:
+  schedule:
+    - cron: "0 22 * * *"
+ 
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: curl stop application
+        run: curl -X POST https://bookquest.up.railway.app/actuator/shutdown
