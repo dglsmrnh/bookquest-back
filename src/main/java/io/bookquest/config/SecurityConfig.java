@@ -13,10 +13,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
-                .authorizeHttpRequests(
-                        authorizeConfig -> {
-                            authorizeConfig.requestMatchers("/api/v1/books").permitAll();
-                        })
+                .authorizeHttpRequests(authorizeConfig -> authorizeConfig
+                        .requestMatchers("/api/v1/books").permitAll()
+                        .requestMatchers("/api/v1/books/{idBook}/questions").permitAll())
                 .build();
     }
 }
