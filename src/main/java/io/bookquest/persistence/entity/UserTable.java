@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class User implements UserDetails, Serializable {
+public class UserTable implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue
@@ -23,9 +23,6 @@ public class User implements UserDetails, Serializable {
 
     @Column
     private Integer xp;
-
-    @OneToMany(mappedBy = "user")
-    private List<UserBook> booksInventory;
 
     @Column
     private String username;
@@ -78,10 +75,6 @@ public class User implements UserDetails, Serializable {
 
     public void setXp(Integer xp) {
         this.xp = xp;
-    }
-
-    public void setBooksInventory(List<UserBook> booksInventory) {
-        this.booksInventory = booksInventory;
     }
 
     public void setUsername(String username) {

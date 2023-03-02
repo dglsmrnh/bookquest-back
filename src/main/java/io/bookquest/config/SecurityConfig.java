@@ -13,9 +13,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
+                .headers().frameOptions().disable().and()
                 .authorizeHttpRequests(authorizeConfig -> authorizeConfig
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/api/v1/books").permitAll()
-                        .requestMatchers("/api/v1/books/{idBook}/questions").permitAll())
+                        .requestMatchers("/api/v1/books/{idBook}/questions").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll())
                 .build();
     }
 }

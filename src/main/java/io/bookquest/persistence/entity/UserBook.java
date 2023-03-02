@@ -10,7 +10,7 @@ public class UserBook {
     private Long id;
 
     @ManyToOne
-    private User user;
+    private UserTable user;
 
     @ManyToOne
     private Book book;
