@@ -1,0 +1,44 @@
+name: "Code Scanning - Action"
+
+on:
+  push:
+    branches: [main, develop, qa]
+  pull_request:
+    branches: [main]
+
+jobs:
+  CodeQL-Build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+      actions: read
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: print java version
+        run: java --version
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: java
+
+      - name: print java
+        run: java --version
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: apt update
+        run:  sudo apt-get update
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
