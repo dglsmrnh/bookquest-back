@@ -9,16 +9,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping("/api/v1")
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
-    @GetMapping
+    @GetMapping("/books")
     public BookEntrypoint getBook(@RequestParam(value = "isbn", required = false) String isbn,
                                   @RequestParam(value = "title", required = false) String  bookTitle){
 
         return bookService.processBook(isbn, bookTitle);
     }
+
+    @GetMapping("/users/{username}/books")
+    public void getAllBookFromUser()
 }
