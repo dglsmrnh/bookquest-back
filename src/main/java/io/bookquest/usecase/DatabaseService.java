@@ -3,6 +3,7 @@ package io.bookquest.usecase;
 import io.bookquest.entrypoint.v1.integration.database.DatabaseClient;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
 import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
+import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
 import io.bookquest.entrypoint.v1.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,11 @@ public class DatabaseService {
     public void saveBookCategory(RecordDataTransfer record) {
         var response = databaseClient.saveOrUpdateBookCategory(record, getToken());
         response.forEach(DatabaseService::validateResponse);
+    }
+
+    public void saveCreate(String username , UserDataTransfer user) {
+        var response = databaseClient.saveUser(username, user, getToken());
+        validateResponse(response);
     }
 
     private String getToken() {
