@@ -8,7 +8,12 @@ import java.util.Map;
 public class UserMapper {
 
     public static UserDataTransfer toDto(UserEntrypoint user) {
-        return new UserDataTransfer(user.senha(), user.name(), Map.of("ExternalId__c", user.classe()), user.coins(),
+        Map<String, String> classeMap = null;
+        if (user.classe() != null) {
+            classeMap = Map.of("ExternalId__c", user.classe());
+        }
+
+        return new UserDataTransfer(user.senha(), user.name(), classeMap, user.coins(),
                 user.levelXp(), user.accountType());
     }
 }

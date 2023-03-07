@@ -29,11 +29,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody UserEntrypoint userEntrypoint) {
-        boolean login = userService.login(userEntrypoint.username(), userEntrypoint.senha());
+        userService.login(userEntrypoint.username(), userEntrypoint.senha());
         return ResponseEntity.accepted().build();
     }
 
-    @PostMapping("/users/{username}")
+    @GetMapping("/users/{username}")
     public ResponseEntity<Void> getUser(@RequestParam("username") String username) {
         return ResponseEntity.ok().build();
     }

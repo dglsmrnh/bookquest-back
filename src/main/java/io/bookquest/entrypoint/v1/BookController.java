@@ -23,5 +23,7 @@ public class BookController {
     }
 
     @GetMapping("/users/{username}/books")
-    public void getAllBookFromUser()
+    public void getAllBookFromUser() {
+
+    }
 }

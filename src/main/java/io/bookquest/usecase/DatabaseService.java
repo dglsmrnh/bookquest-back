@@ -42,9 +42,13 @@ public class DatabaseService {
         response.forEach(DatabaseService::validateResponse);
     }
 
-    public void saveCreate(String username , UserDataTransfer user) {
+    public void saveCreate(String username, UserDataTransfer user) {
         var response = databaseClient.saveUser(username, user, getToken());
         validateResponse(response);
+    }
+
+    public UserDataTransfer getUser(String username) {
+        return databaseClient.getUser(username, getToken());
     }
 
     private String getToken() {
