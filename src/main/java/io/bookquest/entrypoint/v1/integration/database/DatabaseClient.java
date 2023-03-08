@@ -16,7 +16,7 @@ public interface DatabaseClient {
     Map<String, Object> saveOrUpdateBook(@PathVariable("isbn13") String isbn13, @RequestBody BookDataTransfer book,
                                          @RequestHeader("Authorization") String authToken);
 
-    @PatchMapping("/composite/sobjects/Category__c/ExternalId__c")
+    @PatchMapping("/composite/sobjects/Product2/ExternalId__c")
     List<Map<String, Object>> saveOrUpdateCategories(@RequestBody RecordDataTransfer book,
                                                      @RequestHeader("Authorization") String authToken);
 
