@@ -1,9 +1,6 @@
 package io.bookquest.entrypoint.v1.integration.database;
 
-import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
-import io.bookquest.entrypoint.v1.integration.database.dto.ReadingRecord;
-import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
-import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
+import io.bookquest.entrypoint.v1.integration.database.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,10 +29,19 @@ public interface DatabaseClient {
 
     @GetMapping(value = "/sobjects/Account/Username__c/{username}", consumes = "application/json")
     UserDataTransfer getUser(@PathVariable("username") String username,
-                                @RequestHeader("Authorization") String authToken);
+                             @RequestHeader("Authorization") String authToken);
 
     @PatchMapping("/sobjects/Reading__c/ExternalId__c/{externalId}")
     Map<String, Object> saveReading(@PathVariable("externalId") String externalId,
-                                 @RequestBody ReadingRecord reading,
-                                 @RequestHeader("Authorization") String authToken);
+                                    @RequestBody ReadingRecord reading,
+                                    @RequestHeader("Authorization") String authToken);
+
+    @GetMapping("/query")
+    String query(@RequestParam("q") String query,
+                 @RequestHeader("Authorization") String authToken);
+
+    @PostMapping("/composite/sobjects")
+    List<Map<String, Object>> batchInsert(@RequestBody ObjectDataTransfer<Record> record,
+                                                       @RequestHeader("Authorization") String authToken);
+
 }

@@ -34,7 +34,7 @@ public class BookService {
     private BookRepository repository;
 
     @Autowired
-    private DatabaseService databaseService;
+    private DatabaseRepository databaseRepository;
 
     public BookEntrypoint processBook(String isbn, String title) {
         if (nonNull(title)) {
@@ -47,7 +47,7 @@ public class BookService {
     }
 
     public void saveBookToUserInventory(String username, String isbn, ReadingEntrypoint reading) {
-        databaseService.saveReading(username, isbn, reading);
+        databaseRepository.saveReading(username, isbn, reading);
     }
 
     private BookEntrypoint searchWithTitleAndCreate(String title) {
@@ -78,8 +78,8 @@ public class BookService {
 
     public BookEntrypoint saveBook(BookOpenLibrary book) {
         BookDataTransfer bookDataTransfer = BookMapper.toEntity(book);
-        var asyncSaveBook = runAsync(() -> databaseService.saveBook(bookDataTransfer));
-        var asyncSaveCategory = runAsync(() -> databaseService.saveCategories(book.getCategories()));
+        var asyncSaveBook = runAsync(() -> databaseRepository.saveBook(bookDataTransfer));
+        var asyncSaveCategory = runAsync(() -> databaseRepository.saveCategories(book.getCategories()));
 
         allOf(asyncSaveBook, asyncSaveCategory)
                 .join();
@@ -89,7 +89,7 @@ public class BookService {
         ).toList();
 
         var recordDataTransfer = new RecordDataTransfer(true, bookCategoryRelation);
-        databaseService.saveBookCategory(recordDataTransfer);
+        databaseRepository.saveBookCategory(recordDataTransfer);
 
         return BookMapper.toDto(bookDataTransfer, book.getCategories());
     }

@@ -12,11 +12,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserService {
 
     @Autowired
-    private DatabaseService databaseService;
+    private DatabaseRepository databaseRepository;
 
     //pending bcrypt to save e compare
     public void login(String username, String password) {
-        var user = databaseService.getUser(username);
+        var user = databaseRepository.getUser(username);
         var authorize = user.senha()
                 .equalsIgnoreCase(password);
 
@@ -26,6 +26,6 @@ public class UserService {
 
     public void createAccount(UserEntrypoint userEntrypoint) {
         UserDataTransfer user = UserMapper.toDto(userEntrypoint);
-        databaseService.saveCreate(userEntrypoint.username(), user);
+        databaseRepository.saveCreate(userEntrypoint.username(), user);
     }
 }
