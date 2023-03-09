@@ -1,9 +1,11 @@
 package io.bookquest.usecase;
 
+import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.DatabaseClient;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
 import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
 import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
+import io.bookquest.entrypoint.v1.mapper.BookMapper;
 import io.bookquest.entrypoint.v1.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,11 @@ public class DatabaseService {
 
     @Autowired
     private TokenService tokenService;
+
+    public void saveReading(String username, String isbn, ReadingEntrypoint reading) {
+        databaseClient.saveReading(username.concat(isbn),
+                BookMapper.toNewReadingRecord(username, isbn, reading), getToken());
+    }
 
     public void saveBook(BookDataTransfer book) {
         var response = databaseClient.saveOrUpdateBook(book.isbn13(), book, getToken());

@@ -1,6 +1,7 @@
 package io.bookquest.usecase;
 
 import io.bookquest.entrypoint.v1.dto.BookEntrypoint;
+import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
 import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
 import io.bookquest.entrypoint.v1.integration.openlibrary.OpenLibraryClient;
@@ -43,6 +44,10 @@ public class BookService {
         }
 
         throw new ResponseStatusException(BAD_REQUEST, "necessário ter pelo menos um parâmetro na requisição: [title, isbn]");
+    }
+
+    public void saveBookToUserInventory(String username, String isbn, ReadingEntrypoint reading) {
+        databaseService.saveReading(username, isbn, reading);
     }
 
     private BookEntrypoint searchWithTitleAndCreate(String title) {

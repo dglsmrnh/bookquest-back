@@ -17,3 +17,11 @@ curl --request POST 'http://localhost:8080/api/v1/login' \
     "username": "random",
     "password": "senha"
 }'
+
+curl --location --request PATCH 'http://localhost:8080/api/v1/users/salve/books/8175257660' \
+--header 'Content-Type: application/json' \
+--data '{
+    "reading_chapter": 10,
+    "reading_percentage": 10.0,
+    "quiz_answered": false
+}'

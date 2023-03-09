@@ -1,11 +1,14 @@
 package io.bookquest.entrypoint.v1.mapper;
 
 import io.bookquest.entrypoint.v1.dto.BookEntrypoint;
+import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookCategoryRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
+import io.bookquest.entrypoint.v1.integration.database.dto.ReadingRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.TypeAttribute;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.BookOpenLibrary;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -50,5 +53,12 @@ public class BookMapper {
 
     private static Integer calculateXp(Integer pages) {
         return toIntExact(round(pages * 0.5));
+    }
+
+    public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading) {
+        var accountRelation = Map.of("Username__c", username);
+        var bookRelation = Map.of("ISBN__c", isbn);
+        return new ReadingRecord(reading.chapterReading(), reading.readingPercentage(), reading.isQuizANswered(),
+                accountRelation, bookRelation);
     }
 }
