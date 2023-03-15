@@ -1,8 +1,6 @@
 package io.bookquest.entrypoint.v1.integration.database;
 
-import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
-import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
-import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
+import io.bookquest.entrypoint.v1.integration.database.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +14,7 @@ public interface DatabaseClient {
     Map<String, Object> saveOrUpdateBook(@PathVariable("isbn13") String isbn13, @RequestBody BookDataTransfer book,
                                          @RequestHeader("Authorization") String authToken);
 
-    @PatchMapping("/composite/sobjects/Category__c/ExternalId__c")
+    @PatchMapping("/composite/sobjects/Product2/ExternalId__c")
     List<Map<String, Object>> saveOrUpdateCategories(@RequestBody RecordDataTransfer book,
                                                      @RequestHeader("Authorization") String authToken);
 
@@ -24,13 +22,31 @@ public interface DatabaseClient {
     List<Map<String, Object>> saveOrUpdateBookCategory(@RequestBody RecordDataTransfer record,
                                                        @RequestHeader("Authorization") String authToken);
 
-    @PatchMapping("/sobjects/Account/Username__c/{username}}")
+    @PatchMapping("/sobjects/Account/Username__c/{username}")
     Map<String, Object> saveUser(@PathVariable("username") String username,
                                  @RequestBody UserDataTransfer user,
                                  @RequestHeader("Authorization") String authToken);
 
-    @GetMapping(value = "/sobjects/Account/Username__c/{username}}", consumes = "application/json")
+    @GetMapping(value = "/sobjects/Account/Username__c/{username}", consumes = "application/json")
     UserDataTransfer getUser(@PathVariable("username") String username,
-                                @RequestHeader("Authorization") String authToken);
+                             @RequestHeader("Authorization") String authToken);
+
+    @PatchMapping("/sobjects/Reading__c/ExternalId__c/{externalId}")
+    Map<String, Object> saveQuiz(@PathVariable("externalId") String externalId,
+                                 @RequestBody ReadingRecord reading,
+                                 @RequestHeader("Authorization") String authToken);
+
+    @GetMapping("/query")
+    String query(@RequestParam("q") String query,
+                 @RequestHeader("Authorization") String authToken);
+
+    @PostMapping("/composite/sobjects")
+    List<Map<String, Object>> batchInsert(@RequestBody ObjectDataTransfer<Record> record,
+                                          @RequestHeader("Authorization") String authToken);
+
+    @PostMapping("/sobjects/Quiz__c")
+    Map<String, Object> saveQuiz(@RequestBody QuizRecord reading,
+                                 @RequestHeader("Authorization") String authToken);
+
 
 }

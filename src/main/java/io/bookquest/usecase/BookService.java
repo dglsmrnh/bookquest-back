@@ -1,6 +1,7 @@
 package io.bookquest.usecase;
 
 import io.bookquest.entrypoint.v1.dto.BookEntrypoint;
+import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
 import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
 import io.bookquest.entrypoint.v1.integration.openlibrary.OpenLibraryClient;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Objects.nonNull;
 import static java.util.concurrent.CompletableFuture.allOf;
@@ -33,7 +32,7 @@ public class BookService {
     private BookRepository repository;
 
     @Autowired
-    private DatabaseService databaseService;
+    private DatabaseRepository databaseRepository;
 
     public BookEntrypoint processBook(String isbn, String title) {
         if (nonNull(title)) {
@@ -45,7 +44,17 @@ public class BookService {
         throw new ResponseStatusException(BAD_REQUEST, "necessário ter pelo menos um parâmetro na requisição: [title, isbn]");
     }
 
+    public void saveBookToUserInventory(String username, String isbn, ReadingEntrypoint reading) {
+        databaseRepository.saveReading(username, isbn, reading);
+    }
+
     private BookEntrypoint searchWithTitleAndCreate(String title) {
+        var bookApex = databaseRepository.getBook(title, null, null)
+                .stream().findFirst();
+
+        if (bookApex.isPresent())
+            return BookMapper.toDto(bookApex.get());
+
         EnvelopeData envelopeData = openLibraryClient.searchBookByParam(title);
         BookOpenLibrary book = envelopeData.getDocs().stream()
                 .filter(doc -> doc.getTitle().equalsIgnoreCase(title) && doc.getPagesMedian() != null)
@@ -73,8 +82,8 @@ public class BookService {
 
     public BookEntrypoint saveBook(BookOpenLibrary book) {
         BookDataTransfer bookDataTransfer = BookMapper.toEntity(book);
-        var asyncSaveBook = runAsync(() -> databaseService.saveBook(bookDataTransfer));
-        var asyncSaveCategory = runAsync(() -> databaseService.saveCategories(book.getCategories()));
+        var asyncSaveBook = runAsync(() -> databaseRepository.saveBook(bookDataTransfer));
+        var asyncSaveCategory = runAsync(() -> databaseRepository.saveCategories(book.getCategories()));
 
         allOf(asyncSaveBook, asyncSaveCategory)
                 .join();
@@ -84,7 +93,7 @@ public class BookService {
         ).toList();
 
         var recordDataTransfer = new RecordDataTransfer(true, bookCategoryRelation);
-        databaseService.saveBookCategory(recordDataTransfer);
+        databaseRepository.saveBookCategory(recordDataTransfer);
 
         return BookMapper.toDto(bookDataTransfer, book.getCategories());
     }

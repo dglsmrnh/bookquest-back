@@ -14,15 +14,15 @@ public class CategoryMapper {
     }
 
     public static List<Record> toListCategoryRecord(List<String> categories) {
-        var typeAttribute = new TypeAttribute("Category__c");
+        var typeAttribute = new TypeAttribute("Product2");
 
         return categories.stream()
-                .map(category -> toCategoryRecord(category, typeAttribute))
+                .map(category -> toCategoryRecord(category, typeAttribute, "Skill"))
                 .toList();
     }
 
-    public static Record toCategoryRecord(String category, TypeAttribute typeAttribute) {
-        return new CategoryRecord(typeAttribute, category, normalizePortuguese(category));
+    public static Record toCategoryRecord(String category, TypeAttribute typeAttribute, String family) {
+        return new CategoryRecord(typeAttribute, category, family, normalizePortuguese(category));
     }
 
     static String normalizePortuguese(String category) {

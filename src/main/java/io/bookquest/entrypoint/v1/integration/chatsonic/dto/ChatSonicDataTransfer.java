@@ -30,11 +30,9 @@ public class ChatSonicDataTransfer {
     }
 
     public ChatSonicDataTransfer(String inputText) {
-        this.inputText = "me faça 5 perguntas no formato de alternativa com as respostas certas do livro" + inputText +
-                " no formato json com as opções de respostas em um array, exemplo: [{\n" +
-                "    \"question\": \"Quem escreveu O Hobbit?\",\n" +
-                "    \"options\": [\"J.R.R. Tolkien\", \"J.K. Rowling\", \"George R.R. Martin\", \"William Shakespeare\"],\n" +
-                "    \"correctAnswer\": \"J.R.R. Tolkien\"\n" +
-                "  }]";
+        this.inputText = """
+                me faça 5 perguntas no formato de alternativa com as respostas certas do livro %s no formato json com as opções de respostas em um array, retornar apenas o json, exemplo do formato esperado:
+                [{"question": "Quem escreveu O Hobbit?","options": ["J.R.R. Tolkien", "J.K.Rowling", "George R.R. Martin", "William Shakespeare"],"correctAnswer":"J.R.R. Tolkien"},{"question": "Qual a sua idade?","options": ["10", "15", "18", "20"],"correctAnswer":"20"}]
+                  """.formatted(inputText);
     }
 }
