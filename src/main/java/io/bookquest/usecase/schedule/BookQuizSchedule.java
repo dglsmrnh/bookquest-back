@@ -42,7 +42,6 @@ public class BookQuizSchedule {
     @Autowired
     private DatabaseRepository databaseRepository;
 
-    @Scheduled(fixedDelay = 60000)
     @CacheEvict(value = "getBook", allEntries = true)
     public void addQuestionToBook() {
         List<BookDataTransfer> books = databaseRepository.findAllBookWithoutQuiz();
