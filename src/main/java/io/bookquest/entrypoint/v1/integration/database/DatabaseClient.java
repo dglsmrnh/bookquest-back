@@ -32,9 +32,9 @@ public interface DatabaseClient {
                              @RequestHeader("Authorization") String authToken);
 
     @PatchMapping("/sobjects/Reading__c/ExternalId__c/{externalId}")
-    Map<String, Object> saveReading(@PathVariable("externalId") String externalId,
-                                    @RequestBody ReadingRecord reading,
-                                    @RequestHeader("Authorization") String authToken);
+    Map<String, Object> saveQuiz(@PathVariable("externalId") String externalId,
+                                 @RequestBody ReadingRecord reading,
+                                 @RequestHeader("Authorization") String authToken);
 
     @GetMapping("/query")
     String query(@RequestParam("q") String query,
@@ -42,6 +42,11 @@ public interface DatabaseClient {
 
     @PostMapping("/composite/sobjects")
     List<Map<String, Object>> batchInsert(@RequestBody ObjectDataTransfer<Record> record,
-                                                       @RequestHeader("Authorization") String authToken);
+                                          @RequestHeader("Authorization") String authToken);
+
+    @PostMapping("/sobjects/Quiz__c")
+    Map<String, Object> saveQuiz(@RequestBody QuizRecord reading,
+                                 @RequestHeader("Authorization") String authToken);
+
 
 }

@@ -51,6 +51,11 @@ public class BookMapper {
                 book.getPages(), book.getIsbn13(), book.getIsbn10(), categories);
     }
 
+    public static BookEntrypoint toDto(BookDataTransfer book) {
+        return new BookEntrypoint(null, book.getName(), book.getXp(),
+                book.getPages(), book.getIsbn13(), book.getIsbn10(), book.getCategories());
+    }
+
     private static Integer calculateXp(Integer pages) {
         return toIntExact(round(pages * 0.5));
     }

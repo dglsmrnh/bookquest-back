@@ -3,6 +3,11 @@ package io.bookquest.entrypoint.v1.integration.database.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 public class BookDataTransfer {
 
     @JsonProperty("Name")
@@ -11,7 +16,6 @@ public class BookDataTransfer {
     @JsonProperty("CompleteTitle__c")
     String completeTitle;
 
-    @JsonIgnore
     String isbn13;
 
     @JsonProperty("ISBN10__c")
@@ -26,6 +30,32 @@ public class BookDataTransfer {
     @JsonProperty("QuizEnable__c")
     boolean quizEnable;
 
+    List<String> categories;
+
+    @JsonIgnore
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    @JsonProperty("BookCategories__r")
+    public void setCategories(Map<String, Object> categories) {
+        this.categories = new ArrayList<>();
+        var records = categories.getOrDefault("records", List.of());
+        if (records instanceof List<?>) {
+            ((List<?>) records).forEach(record -> {
+                if (record instanceof Map<?,?>) {
+                    List<String> listaCategoria = ((Map<?, ?>) record).values().stream()
+                            .filter(categoryRelation -> categoryRelation instanceof Map<?, ?>)
+                            .map(categoryRelation -> {
+                                Object name = ((Map<?, ?>) categoryRelation).get("Name");
+                                return String.valueOf(name);
+                            }).filter(categoriesString -> !categoriesString.equalsIgnoreCase("null"))
+                            .toList();
+                    this.categories.addAll(listaCategoria);
+                }
+            });
+        }
+    }
 
     public String getName() {
         return name;
@@ -43,10 +73,12 @@ public class BookDataTransfer {
         this.completeTitle = completeTitle;
     }
 
+    @JsonIgnore
     public String getIsbn13() {
         return isbn13;
     }
 
+    @JsonProperty("ISBN__c")
     public void setIsbn13(String isbn13) {
         this.isbn13 = isbn13;
     }

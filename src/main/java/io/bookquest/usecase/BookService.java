@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Objects.nonNull;
 import static java.util.concurrent.CompletableFuture.allOf;
@@ -51,6 +49,12 @@ public class BookService {
     }
 
     private BookEntrypoint searchWithTitleAndCreate(String title) {
+        var bookApex = databaseRepository.getBook(title, null, null)
+                .stream().findFirst();
+
+        if (bookApex.isPresent())
+            return BookMapper.toDto(bookApex.get());
+
         EnvelopeData envelopeData = openLibraryClient.searchBookByParam(title);
         BookOpenLibrary book = envelopeData.getDocs().stream()
                 .filter(doc -> doc.getTitle().equalsIgnoreCase(title) && doc.getPagesMedian() != null)
