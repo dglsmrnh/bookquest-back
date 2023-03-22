@@ -94,6 +94,10 @@ public class DatabaseRepository {
         return databaseClient.getUser(username, getToken());
     }
 
+    public CategoryRecord getClass(String idClass) {
+        return databaseClient.getClass(idClass, getToken());
+    }
+
     private String getToken() {
         return "Bearer ".concat(tokenService.getToken());
     }

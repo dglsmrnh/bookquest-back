@@ -14,5 +14,6 @@ public record UserDataTransfer(@JsonProperty("Senha__c") String senha,
                                @JsonProperty("Classe__r") Map<String, String> classe,
                                @JsonProperty("Coins__c") Integer coins,
                                @JsonProperty("LevelXP__c") Integer levelXp,
-                               @JsonProperty("Type") String accountType) {
+                               @JsonProperty("Type") String accountType,
+                               @JsonProperty("Classe__c") String classeOutput) {
 }
