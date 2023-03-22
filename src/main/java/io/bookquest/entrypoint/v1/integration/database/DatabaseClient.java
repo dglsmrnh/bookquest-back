@@ -1,6 +1,7 @@
 package io.bookquest.entrypoint.v1.integration.database;
 
 import io.bookquest.entrypoint.v1.integration.database.dto.*;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,13 @@ public interface DatabaseClient {
                                  @RequestHeader("Authorization") String authToken);
 
     @GetMapping(value = "/sobjects/Account/Username__c/{username}", consumes = "application/json")
+    @Cacheable("user")
     UserDataTransfer getUser(@PathVariable("username") String username,
+                             @RequestHeader("Authorization") String authToken);
+
+    @GetMapping(value = "/sobjects/Product2/{id}", consumes = "application/json")
+    @Cacheable("userClassOrCategory")
+    CategoryRecord getClass(@PathVariable("id") String id,
                              @RequestHeader("Authorization") String authToken);
 
     @PatchMapping("/sobjects/Reading__c/ExternalId__c/{externalId}")

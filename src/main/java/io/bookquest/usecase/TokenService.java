@@ -4,6 +4,7 @@ import io.bookquest.entrypoint.v1.integration.database.DatabaseClient;
 import io.bookquest.entrypoint.v1.integration.database.TokenClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,8 +25,15 @@ public class TokenService {
     @Value("${salesforce.password}")
     private String password;
 
+    private String token;
+
     public String getToken() {
-        return databaseClient.getToken("password", clientId, clientSecret, username, password)
+        return token;
+    }
+
+    @Scheduled(fixedDelay = 100000)
+    public void setToken() {
+        this.token = databaseClient.getToken("password", clientId, clientSecret, username, password)
                 .accessToken();
     }
 }
