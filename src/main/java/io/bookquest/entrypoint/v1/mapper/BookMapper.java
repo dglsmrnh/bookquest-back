@@ -52,7 +52,7 @@ public class BookMapper {
     }
 
     public static BookEntrypoint toDto(BookDataTransfer book) {
-        return new BookEntrypoint(null, book.getName(), book.getXp(),
+        return new BookEntrypoint(book.getId(), book.getName(), book.getXp(),
                 book.getPages(), book.getIsbn13(), book.getIsbn10(), book.getCategories());
     }
 

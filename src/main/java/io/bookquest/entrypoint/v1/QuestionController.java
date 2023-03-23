@@ -18,7 +18,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping("/{idBook}/questions")
-    public List<BookQuizEntrypoint> getQuestions(@PathVariable("idBook") Long idBook) {
+    public List<BookQuizEntrypoint> getQuestions(@PathVariable("idBook") String idBook) {
         return questionService.getQuestions(idBook);
     }
 }

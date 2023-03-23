@@ -64,6 +64,17 @@ public class BookService {
     }
 
     private BookEntrypoint createBook(String isbn) {
+        Optional<BookDataTransfer> bookApex = Optional.empty();
+        if (isbn.length() == 13)
+            bookApex = databaseRepository.getBook(null, null, isbn)
+                .stream().findFirst();
+        else
+            bookApex = databaseRepository.getBook(null, isbn, null)
+                    .stream().findFirst();
+
+        if (bookApex.isPresent())
+            return BookMapper.toDto(bookApex.get());
+
         BookOpenLibrary book = openLibraryClient.getBookByISBN(isbn);
         String titleName = book.getTitle();
         EnvelopeData envelopeData = openLibraryClient.searchBookByParam(titleName);
@@ -83,19 +94,21 @@ public class BookService {
     public BookEntrypoint saveBook(BookOpenLibrary book) {
         BookDataTransfer bookDataTransfer = BookMapper.toEntity(book);
         var asyncSaveBook = runAsync(() -> databaseRepository.saveBook(bookDataTransfer));
-        var asyncSaveCategory = runAsync(() -> databaseRepository.saveCategories(book.getCategories()));
+        List<String> categories = book.getCategories().stream()
+                .distinct().toList();
+        var asyncSaveCategory = runAsync(() -> databaseRepository.saveCategories(categories));
 
         allOf(asyncSaveBook, asyncSaveCategory)
                 .join();
 
-        var bookCategoryRelation = book.getCategories().stream().map(
+        var bookCategoryRelation = categories.stream().map(
                 category -> BookMapper.toBookCategory(bookDataTransfer, category)
         ).toList();
 
         var recordDataTransfer = new RecordDataTransfer(true, bookCategoryRelation);
         databaseRepository.saveBookCategory(recordDataTransfer);
 
-        return BookMapper.toDto(bookDataTransfer, book.getCategories());
+        return BookMapper.toDto(bookDataTransfer, categories);
     }
 
     private boolean containsSubject(List<String> subjects) {

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class DatabaseRepository {
@@ -29,6 +30,28 @@ public class DatabaseRepository {
 
     @Autowired
     private ApexClient apexClient;
+
+    public List<QuestionsGetRecord> getBookQuestions(String id) {
+        var json = databaseClient.query("SELECT FIELDS(ALL) from Questions__c Where Livro__c = '%s' LIMIT 200".formatted(id), getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<QuestionsGetRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<AnswerRecord> getAnswerQuestions(List<QuestionsGetRecord> questions) {
+        String questionsId = questions.stream().map(QuestionsGetRecord::id)
+                .collect(Collectors.joining("','"));
+        var json = databaseClient.query("SELECT FIELDS(ALL) from Answers__c Where Question__c IN ('%s')  LIMIT 200".formatted(questionsId), getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<AnswerRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public List<BookDataTransfer> getBook(String title, String isbn10, String isbn13) {
         return apexClient.getBook(title, isbn10, isbn13, getToken());
@@ -72,7 +95,7 @@ public class DatabaseRepository {
         var isRequestSuccess = String.valueOf(response.get("success"))
                 .equalsIgnoreCase("true");
         if (!isRequestSuccess)
-            throw new RuntimeException("Requisição para o Salesforce sem sucesso");
+            throw new RuntimeException("Requisição para o Salesforce sem sucesso: ".concat(response.toString()));
     }
 
     public void saveCategories(List<String> categories) {
