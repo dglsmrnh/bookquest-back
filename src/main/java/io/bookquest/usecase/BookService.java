@@ -3,6 +3,7 @@ package io.bookquest.usecase;
 import io.bookquest.entrypoint.v1.dto.BookEntrypoint;
 import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
+import io.bookquest.entrypoint.v1.integration.database.dto.ReadingRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
 import io.bookquest.entrypoint.v1.integration.openlibrary.OpenLibraryClient;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.BookOpenLibrary;
@@ -120,6 +121,10 @@ public class BookService {
                 .filter(category -> containsSubject(subjects) && subjects.contains(category.getCategory()))
                 .map(CategoriesEnum::getTranslateCategory)
                 .toList();
+    }
+
+    public void getBooksFromUser(String idUser, String pageSize, String page) {
+        List<ReadingRecord> reading = databaseRepository.getBookFromUser(idUser, pageSize, page);
     }
 }
 

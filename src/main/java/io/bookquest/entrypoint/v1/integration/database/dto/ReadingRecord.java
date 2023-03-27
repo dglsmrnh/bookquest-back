@@ -7,7 +7,7 @@ import java.util.Map;
 
 public record ReadingRecord(@JsonProperty("ChapterReading__c") Integer chapterReading,
                             @JsonProperty("ReadingPercentage__c") BigDecimal readingPercentage,
-                            @JsonProperty("QuizAnswered__c") boolean isQuizANswered,
+                            @JsonProperty("QuizAnswered__c") boolean isQuizAnswered,
                             @JsonProperty("Account__r") Map<String, String> accountRelation,
                             @JsonProperty("Book__r") Map<String, String> bookRelation) {
 }

@@ -22,6 +22,8 @@ dependencies {
 	implementation group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
 	implementation 'software.amazon.awssdk:s3:2.20.14'
 	implementation 'software.amazon.awssdk:auth:2.20.14'
+	implementation 'br.com.caelum.stella:caelum-stella-boleto:2.1.6'
+	implementation 'com.lowagie:itext:2.1.7'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

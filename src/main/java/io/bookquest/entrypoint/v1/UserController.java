@@ -3,18 +3,10 @@ package io.bookquest.entrypoint.v1;
 import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
 import io.bookquest.usecase.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.ResponseData;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.auth.credentials.*;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.Bucket;
 
-import java.net.URI;
-import java.util.List;
 import java.util.Map;
 
 import static java.net.URI.create;
@@ -48,7 +40,7 @@ public class UserController {
 
     @PostMapping("/users/{username}/images")
     public ResponseEntity<Object> saveAvatar(@PathVariable("username") String username,
-            @RequestParam(value = "file") MultipartFile file) {
+                                             @RequestParam(value = "file") MultipartFile file) {
         String key = userService.uploadFile(file, username);
         return ResponseEntity.ok(Map.of("s3_key", key));
     }
@@ -57,5 +49,10 @@ public class UserController {
     public ResponseEntity<Object> getAvatar(@PathVariable("username") String username) {
         String key = userService.getAvatarPicture(username);
         return ResponseEntity.ok(Map.of("image_encoded", key));
+    }
+
+    @PatchMapping("/users")
+    public ResponseEntity<Void> updateUserInfo() {
+        return ResponseEntity.noContent().build();
     }
 }

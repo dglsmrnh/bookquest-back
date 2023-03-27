@@ -20,11 +20,19 @@ public class BookController {
         return bookService.processBook(isbn, bookTitle);
     }
 
-    @GetMapping("/users/{username}/books")
-    public void getAllBookFromUser() {
-
+    @GetMapping("/users/{idUser}/books")
+    public void getAllBookFromUser(@PathVariable("idUser") String idUser,
+                                   @RequestParam(name = "page_size", required = false, defaultValue = "200") String pageSize,
+                                   @RequestParam(name = "page", required = false, defaultValue = "200") String page) {
+        bookService.getBooksFromUser(idUser, pageSize, page);
     }
 
+    /**
+     * Quando atualizar o reading, atualizar tambem as informaçoes do usuário, como a xp por exemplo
+     * @param username
+     * @param isbn
+     * @param reading
+     */
     @PatchMapping("/users/{username}/books/{isbn}")
     public void saveBookToUser(@PathVariable("username") String username,
                                @PathVariable("isbn") String isbn,

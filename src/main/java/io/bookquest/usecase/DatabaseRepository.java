@@ -124,4 +124,16 @@ public class DatabaseRepository {
     private String getToken() {
         return "Bearer ".concat(tokenService.getToken());
     }
+
+    public List<ReadingRecord> getBookFromUser(String idUser, String pageSize, String page) {
+        var query = "SELECT FIELDS(ALL) from Reading__c Where Account__c = '%s' Limit %s OFFSET %s"
+                .formatted(idUser, pageSize, page);
+        String json = databaseClient.query(query, getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<ReadingRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
