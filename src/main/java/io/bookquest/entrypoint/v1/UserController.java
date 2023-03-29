@@ -51,8 +51,10 @@ public class UserController {
         return ResponseEntity.ok(Map.of("image_encoded", key));
     }
 
-    @PatchMapping("/users")
-    public ResponseEntity<Void> updateUserInfo() {
+    @PatchMapping("/users/{username}")
+    public ResponseEntity<Void> updateUserInfo(@PathVariable("username") String username,
+                                               @RequestBody UserEntrypoint user) {
+        userService.updateUser(username, user);
         return ResponseEntity.noContent().build();
     }
 }

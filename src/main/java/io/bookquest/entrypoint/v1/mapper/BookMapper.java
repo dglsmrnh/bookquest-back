@@ -63,7 +63,7 @@ public class BookMapper {
     public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading) {
         var accountRelation = Map.of("Username__c", username);
         var bookRelation = Map.of("ISBN__c", isbn);
-        return new ReadingRecord(reading.chapterReading(), reading.readingPercentage(), reading.isQuizANswered(),
+        return new ReadingRecord(reading.chapterReading(), reading.pagesRead(), reading.readingPercentage(), reading.isQuizANswered(),
                 accountRelation, bookRelation);
     }
 }

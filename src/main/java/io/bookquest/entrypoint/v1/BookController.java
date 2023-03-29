@@ -4,6 +4,7 @@ import io.bookquest.entrypoint.v1.dto.BookEntrypoint;
 import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
 import io.bookquest.usecase.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,14 +30,17 @@ public class BookController {
 
     /**
      * Quando atualizar o reading, atualizar tambem as informaçoes do usuário, como a xp por exemplo
+     *
      * @param username
      * @param isbn
      * @param reading
+     * @return
      */
     @PatchMapping("/users/{username}/books/{isbn}")
-    public void saveBookToUser(@PathVariable("username") String username,
-                               @PathVariable("isbn") String isbn,
-                               @RequestBody ReadingEntrypoint reading) {
+    public ResponseEntity<Void> saveBookToUser(@PathVariable("username") String username,
+                                                 @PathVariable("isbn") String isbn,
+                                                 @RequestBody ReadingEntrypoint reading) {
         bookService.saveBookToUserInventory(username, isbn, reading);
+        return ResponseEntity.noContent().build();
     }
 }

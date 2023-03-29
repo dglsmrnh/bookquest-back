@@ -13,5 +13,6 @@ public record UserEntrypoint(@JsonProperty("username") String username,
                              @JsonProperty("class") String classe,
                              @JsonProperty("coins") Integer coins,
                              @JsonProperty("level_xp") Integer levelXp,
-                             @JsonProperty("account_type") String accountType) {
+                             @JsonProperty("account_type") String accountType,
+                             @JsonProperty("email") String email) {
 }

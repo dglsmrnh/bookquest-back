@@ -82,8 +82,9 @@ public class DatabaseRepository {
     }
 
     public void saveReading(String username, String isbn, ReadingEntrypoint reading) {
-        databaseClient.saveQuiz(username.concat(isbn),
+        Map<String, Object> response = databaseClient.saveQuiz(username.concat(isbn),
                 BookMapper.toNewReadingRecord(username, isbn, reading), getToken());
+        validateResponse(response);
     }
 
     public void saveBook(BookDataTransfer book) {
@@ -136,4 +137,18 @@ public class DatabaseRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public List<ReadingRecord> getReading(String username, String isbn) {
+        var query = "SELECT FIELDS(ALL) from Reading__c Where ExternalId__c = '%s' Limit 200"
+                .formatted(username.concat(isbn));
+        String json = databaseClient.query(query, getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<ReadingRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+

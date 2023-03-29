@@ -5,6 +5,7 @@ import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
 import io.bookquest.entrypoint.v1.integration.database.dto.ReadingRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.RecordDataTransfer;
+import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
 import io.bookquest.entrypoint.v1.integration.openlibrary.OpenLibraryClient;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.BookOpenLibrary;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.EnvelopeData;
@@ -12,6 +13,7 @@ import io.bookquest.entrypoint.v1.mapper.BookMapper;
 import io.bookquest.persistence.repository.BookRepository;
 import io.bookquest.usecase.categories.CategoriesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,6 +23,7 @@ import static java.util.Objects.nonNull;
 import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 
 @Service
@@ -46,7 +49,17 @@ public class BookService {
     }
 
     public void saveBookToUserInventory(String username, String isbn, ReadingEntrypoint reading) {
+        ReadingRecord readingGet = databaseRepository.getReading(username, isbn)
+                .stream().findFirst()
+                .orElseThrow();
+
+        int pagesRead = readingGet.pagesRead() != null ? readingGet.pagesRead() : 0;
+        int xp = Math.abs(pagesRead - reading.pagesRead());
+        int xpGained = pagesRead + xp;
         databaseRepository.saveReading(username, isbn, reading);
+        var userUpdateXP = new UserDataTransfer(null, null, null, null,  xpGained, null, null);
+
+        databaseRepository.saveCreate(username, userUpdateXP);
     }
 
     private BookEntrypoint searchWithTitleAndCreate(String title) {
