@@ -1,6 +1,7 @@
 package io.bookquest.entrypoint.v1.integration.database;
 
 import io.bookquest.entrypoint.v1.integration.database.dto.*;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public interface DatabaseClient {
                              @RequestHeader("Authorization") String authToken);
 
     @PatchMapping("/sobjects/Reading__c/ExternalId__c/{externalId}")
+    @CacheEvict(value = "user", allEntries = true)
     Map<String, Object> saveQuiz(@PathVariable("externalId") String externalId,
                                  @RequestBody ReadingRecord reading,
                                  @RequestHeader("Authorization") String authToken);

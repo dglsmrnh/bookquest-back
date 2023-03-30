@@ -49,17 +49,40 @@ public class BookService {
     }
 
     public void saveBookToUserInventory(String username, String isbn, ReadingEntrypoint reading) {
-        ReadingRecord readingGet = databaseRepository.getReading(username, isbn)
-                .stream().findFirst()
-                .orElseThrow();
+        var readingGet = databaseRepository.getReading(username, isbn)
+                .stream().findFirst();
 
-        int pagesRead = readingGet.pagesRead() != null ? readingGet.pagesRead() : 0;
-        int xp = Math.abs(pagesRead - reading.pagesRead());
-        int xpGained = pagesRead + xp;
-        databaseRepository.saveReading(username, isbn, reading);
-        var userUpdateXP = new UserDataTransfer(null, null, null, null,  xpGained, null, null);
+        if (readingGet.isEmpty()) {
+            databaseRepository.saveReading(username, isbn, reading, "NotStarted");
+            return;
+        }
 
-        databaseRepository.saveCreate(username, userUpdateXP);
+        ReadingRecord readingValue = readingGet.get();
+
+        int pagesRead = readingValue.pagesRead() != null ? readingValue.pagesRead() : 0;
+
+        Integer pages = processBook(isbn, null).pages() ;
+
+        if (isValidToUpdate(reading, readingValue, pagesRead, pages))
+            throw new ResponseStatusException(UNPROCESSABLE_ENTITY,
+                    "Você não pode atualizar esse recurso, status da entidade: ".concat(readingValue.status()));
+
+        if (reading.pagesRead().equals(pages)) {
+            Integer userXp = databaseRepository.getUser(username).levelXp();
+            int xp = reading.pagesRead() * 5 / 100;
+            var userUpdateXP = new UserDataTransfer(null, null, null, null,  xp + userXp, null, null);
+
+            databaseRepository.saveCreate(username, userUpdateXP);
+            databaseRepository.saveReading(username, isbn, reading, "WaitingValidation");
+        } else {
+            databaseRepository.saveReading(username, isbn, reading, "Reading");
+        }
+    }
+
+    private static boolean isValidToUpdate(ReadingEntrypoint reading, ReadingRecord readingValue, int pagesRead, Integer pages) {
+        return pagesRead > reading.pagesRead() || reading.pagesRead() > pages
+                || readingValue.status().equalsIgnoreCase("WaitingValidation")
+                || readingValue.status().equalsIgnoreCase("Completed");
     }
 
     private BookEntrypoint searchWithTitleAndCreate(String title) {

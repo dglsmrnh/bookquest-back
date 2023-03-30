@@ -10,6 +10,7 @@ import io.bookquest.entrypoint.v1.integration.database.dto.*;
 import io.bookquest.entrypoint.v1.mapper.BookMapper;
 import io.bookquest.entrypoint.v1.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,9 +82,9 @@ public class DatabaseRepository {
         }).toList();
     }
 
-    public void saveReading(String username, String isbn, ReadingEntrypoint reading) {
+    public void saveReading(String username, String isbn, ReadingEntrypoint reading, String status) {
         Map<String, Object> response = databaseClient.saveQuiz(username.concat(isbn),
-                BookMapper.toNewReadingRecord(username, isbn, reading), getToken());
+                BookMapper.toNewReadingRecord(username, isbn, reading, status), getToken());
         validateResponse(response);
     }
 

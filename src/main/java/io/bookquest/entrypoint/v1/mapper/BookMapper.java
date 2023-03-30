@@ -8,7 +8,6 @@ import io.bookquest.entrypoint.v1.integration.database.dto.ReadingRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.TypeAttribute;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.BookOpenLibrary;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -60,10 +59,11 @@ public class BookMapper {
         return toIntExact(round(pages * 0.5));
     }
 
-    public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading) {
+    public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading, String status) {
         var accountRelation = Map.of("Username__c", username);
         var bookRelation = Map.of("ISBN__c", isbn);
-        return new ReadingRecord(reading.chapterReading(), reading.pagesRead(), reading.readingPercentage(), reading.isQuizANswered(),
-                accountRelation, bookRelation);
+        var pagesRead = "NotStarted".equals(status) ? 0 : reading.pagesRead();
+        return new ReadingRecord(reading.chapterReading(), pagesRead, reading.readingPercentage(), reading.isQuizAnswered(),
+                accountRelation, bookRelation, status);
     }
 }

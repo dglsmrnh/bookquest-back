@@ -28,14 +28,6 @@ public class BookController {
         bookService.getBooksFromUser(idUser, pageSize, page);
     }
 
-    /**
-     * Quando atualizar o reading, atualizar tambem as informaçoes do usuário, como a xp por exemplo
-     *
-     * @param username
-     * @param isbn
-     * @param reading
-     * @return
-     */
     @PatchMapping("/users/{username}/books/{isbn}")
     public ResponseEntity<Void> saveBookToUser(@PathVariable("username") String username,
                                                  @PathVariable("isbn") String isbn,
