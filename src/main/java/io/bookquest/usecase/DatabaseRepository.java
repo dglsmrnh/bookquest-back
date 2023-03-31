@@ -10,11 +10,11 @@ import io.bookquest.entrypoint.v1.integration.database.dto.*;
 import io.bookquest.entrypoint.v1.mapper.BookMapper;
 import io.bookquest.entrypoint.v1.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,6 +56,17 @@ public class DatabaseRepository {
 
     public List<BookDataTransfer> getBook(String title, String isbn10, String isbn13) {
         return apexClient.getBook(title, isbn10, isbn13, getToken());
+    }
+
+    public Optional<BookDataTransfer> getBook(String idBook) {
+        var json = databaseClient.query("SELECT FIELDS(ALL) from Book__c Where Id = '%s' LIMIT 200".formatted(idBook),
+                getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<BookDataTransfer>>() {})
+                    .getRecords().stream().findFirst();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<BookDataTransfer> findAllBookWithoutQuiz() {

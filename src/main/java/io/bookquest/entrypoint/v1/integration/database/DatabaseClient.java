@@ -16,6 +16,10 @@ public interface DatabaseClient {
     Map<String, Object> saveOrUpdateBook(@PathVariable("isbn13") String isbn13, @RequestBody BookDataTransfer book,
                                          @RequestHeader("Authorization") String authToken);
 
+    @GetMapping("/sobjects/Book__c/ISBN__c/{isbn13}")
+    BookDataTransfer getBook(@PathVariable("isbn13") String isbn13,
+                                         @RequestHeader("Authorization") String authToken);
+
     @PatchMapping("/composite/sobjects/Product2/ExternalId__c")
     List<Map<String, Object>> saveOrUpdateCategories(@RequestBody RecordDataTransfer book,
                                                      @RequestHeader("Authorization") String authToken);
@@ -30,7 +34,6 @@ public interface DatabaseClient {
                                  @RequestHeader("Authorization") String authToken);
 
     @GetMapping(value = "/sobjects/Account/Username__c/{username}", consumes = "application/json")
-    @Cacheable("user")
     UserDataTransfer getUser(@PathVariable("username") String username,
                              @RequestHeader("Authorization") String authToken);
 

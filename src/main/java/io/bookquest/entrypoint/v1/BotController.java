@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1")
 public class BotController {
@@ -15,6 +18,7 @@ public class BotController {
     @GetMapping("/users/{username}/bot-options")
     public ResponseEntity<Object> getAllClassesOptions(@PathVariable("username") String username) {
         botService.getAllAvaiableClass(username);
-        return ResponseEntity.ok().build();
+        var available_classes = Map.of("available_classes", List.of("Aventureiro, Historiador"));
+        return ResponseEntity.ok(available_classes);
     }
 }

@@ -56,13 +56,13 @@ public class BookMapper {
     }
 
     private static Integer calculateXp(Integer pages) {
-        return toIntExact(round(pages * 0.5));
+        return toIntExact(round(pages));
     }
 
     public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading, String status) {
         var accountRelation = Map.of("Username__c", username);
         var bookRelation = Map.of("ISBN__c", isbn);
-        var pagesRead = "NotStarted".equals(status) ? 0 : reading.pagesRead();
+        var pagesRead = "NotStarted".equals(status) ? Integer.valueOf(0) : reading.pagesRead();
         return new ReadingRecord(reading.chapterReading(), pagesRead, reading.readingPercentage(), reading.isQuizAnswered(),
                 accountRelation, bookRelation, status);
     }

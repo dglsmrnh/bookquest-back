@@ -13,7 +13,6 @@ import io.bookquest.entrypoint.v1.mapper.BookMapper;
 import io.bookquest.persistence.repository.BookRepository;
 import io.bookquest.usecase.categories.CategoriesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -48,7 +47,7 @@ public class BookService {
         throw new ResponseStatusException(BAD_REQUEST, "necessário ter pelo menos um parâmetro na requisição: [title, isbn]");
     }
 
-    public void saveBookToUserInventory(String username, String isbn, ReadingEntrypoint reading) {
+    public void updateReading(String username, String isbn, ReadingEntrypoint reading) {
         var readingGet = databaseRepository.getReading(username, isbn)
                 .stream().findFirst();
 

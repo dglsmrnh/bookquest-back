@@ -1,9 +1,13 @@
 package io.bookquest.entrypoint.v1.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+
+@JsonInclude(Include.NON_NULL)
 public class BookQuizEntrypoint {
 
     @JsonProperty("question")
@@ -14,6 +18,17 @@ public class BookQuizEntrypoint {
 
     @JsonProperty("correctAnswer")
     private String correctAnswer;
+
+    @JsonProperty("right_choose")
+    private Boolean rightOption;
+
+    public Boolean isRightOption() {
+        return rightOption;
+    }
+
+    public void setRightOption(boolean rightOption) {
+        this.rightOption = rightOption;
+    }
 
     public String getQuestion() {
         return question;

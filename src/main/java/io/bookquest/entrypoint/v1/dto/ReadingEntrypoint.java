@@ -8,4 +8,8 @@ public record ReadingEntrypoint(@JsonProperty("reading_chapter") Integer chapter
                                 @JsonProperty("reading_percentage") BigDecimal readingPercentage,
                                 @JsonProperty("pages_read") Integer pagesRead,
                                 @JsonProperty("quiz_answered") boolean isQuizAnswered) {
+
+    public ReadingEntrypoint(boolean isQuizAnswered) {
+        this(null, null, null, isQuizAnswered);
+    }
 }
