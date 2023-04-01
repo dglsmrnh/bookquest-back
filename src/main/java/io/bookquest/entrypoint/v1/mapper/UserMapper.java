@@ -16,6 +16,11 @@ public class UserMapper {
     }
 
     public static UserEntrypoint toEntrypoint(UserDataTransfer user, String userClass) {
-        return new UserEntrypoint(null, null, user.name(), userClass, user.coins(), user.levelXp(), user.accountType());
+
+        return new UserEntrypoint(null, null, user.name(), userClass, user.coins(), user.levelXp(), user.accountType(), null);
+    }
+
+    public static UserDataTransfer updateXp(Integer xp) {
+        return new UserDataTransfer(null, null, null, null, xp, null, null);
     }
 }

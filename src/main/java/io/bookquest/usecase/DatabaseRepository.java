@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DatabaseRepository {
@@ -30,8 +32,41 @@ public class DatabaseRepository {
     @Autowired
     private ApexClient apexClient;
 
+    public List<QuestionsGetRecord> getBookQuestions(String id) {
+        var json = databaseClient.query("SELECT FIELDS(ALL) from Questions__c Where Livro__c = '%s' LIMIT 200".formatted(id), getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<QuestionsGetRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<AnswerRecord> getAnswerQuestions(List<QuestionsGetRecord> questions) {
+        String questionsId = questions.stream().map(QuestionsGetRecord::id)
+                .collect(Collectors.joining("','"));
+        var json = databaseClient.query("SELECT FIELDS(ALL) from Answers__c Where Question__c IN ('%s')  LIMIT 200".formatted(questionsId), getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<AnswerRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<BookDataTransfer> getBook(String title, String isbn10, String isbn13) {
         return apexClient.getBook(title, isbn10, isbn13, getToken());
+    }
+
+    public Optional<BookDataTransfer> getBook(String idBook) {
+        var json = databaseClient.query("SELECT FIELDS(ALL) from Book__c Where Id = '%s' LIMIT 200".formatted(idBook),
+                getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<BookDataTransfer>>() {})
+                    .getRecords().stream().findFirst();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<BookDataTransfer> findAllBookWithoutQuiz() {
@@ -58,9 +93,10 @@ public class DatabaseRepository {
         }).toList();
     }
 
-    public void saveReading(String username, String isbn, ReadingEntrypoint reading) {
-        databaseClient.saveQuiz(username.concat(isbn),
-                BookMapper.toNewReadingRecord(username, isbn, reading), getToken());
+    public void saveReading(String username, String isbn, ReadingEntrypoint reading, String status) {
+        Map<String, Object> response = databaseClient.saveQuiz(username.concat(isbn),
+                BookMapper.toNewReadingRecord(username, isbn, reading, status), getToken());
+        validateResponse(response);
     }
 
     public void saveBook(BookDataTransfer book) {
@@ -72,7 +108,7 @@ public class DatabaseRepository {
         var isRequestSuccess = String.valueOf(response.get("success"))
                 .equalsIgnoreCase("true");
         if (!isRequestSuccess)
-            throw new RuntimeException("Requisição para o Salesforce sem sucesso");
+            throw new RuntimeException("Requisição para o Salesforce sem sucesso: ".concat(response.toString()));
     }
 
     public void saveCategories(List<String> categories) {
@@ -101,4 +137,30 @@ public class DatabaseRepository {
     private String getToken() {
         return "Bearer ".concat(tokenService.getToken());
     }
+
+    public List<ReadingRecord> getBookFromUser(String idUser, String pageSize, String page) {
+        var query = "SELECT FIELDS(ALL) from Reading__c Where Account__c = '%s' Limit %s OFFSET %s"
+                .formatted(idUser, pageSize, page);
+        String json = databaseClient.query(query, getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<ReadingRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<ReadingRecord> getReading(String username, String isbn) {
+        var query = "SELECT FIELDS(ALL) from Reading__c Where ExternalId__c = '%s' Limit 200"
+                .formatted(username.concat(isbn));
+        String json = databaseClient.query(query, getToken());
+        try {
+            return mapper.readValue(json, new TypeReference<ObjectDataTransfer<ReadingRecord>>() {})
+                    .getRecords();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+

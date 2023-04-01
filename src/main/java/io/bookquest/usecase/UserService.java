@@ -79,4 +79,8 @@ public class UserService {
         CategoryRecord userClass = databaseRepository.getClass(user.classeOutput());
         return UserMapper.toEntrypoint(user, userClass.name());
     }
+
+    public void updateUser(String idUser, UserEntrypoint user) {
+
+    }
 }

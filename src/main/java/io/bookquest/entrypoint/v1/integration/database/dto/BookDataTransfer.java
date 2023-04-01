@@ -10,6 +10,8 @@ import java.util.Objects;
 
 public class BookDataTransfer {
 
+    private String id;
+
     @JsonProperty("Name")
     String name;
 
@@ -71,6 +73,16 @@ public class BookDataTransfer {
 
     public void setCompleteTitle(String completeTitle) {
         this.completeTitle = completeTitle;
+    }
+
+    @JsonIgnore
+    public String getId() {
+        return id;
+    }
+
+    @JsonProperty("Id")
+    public void setId(String id) {
+        this.id = id;
     }
 
     @JsonIgnore

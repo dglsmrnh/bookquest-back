@@ -12,10 +12,10 @@ import java.net.URI;
 @Configuration
 public class AwsConfig {
 
-    @Value("aws.s3.key")
+    @Value("${aws.s3.key}")
     private String s3Key;
 
-    @Value("aws.s3.secret")
+    @Value("${aws.s3.secret}")
     private String s3Secret;
 
     @Bean

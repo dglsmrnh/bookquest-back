@@ -8,7 +8,6 @@ import io.bookquest.entrypoint.v1.integration.database.dto.ReadingRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.TypeAttribute;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.BookOpenLibrary;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -52,18 +51,19 @@ public class BookMapper {
     }
 
     public static BookEntrypoint toDto(BookDataTransfer book) {
-        return new BookEntrypoint(null, book.getName(), book.getXp(),
+        return new BookEntrypoint(book.getId(), book.getName(), book.getXp(),
                 book.getPages(), book.getIsbn13(), book.getIsbn10(), book.getCategories());
     }
 
     private static Integer calculateXp(Integer pages) {
-        return toIntExact(round(pages * 0.5));
+        return toIntExact(round(pages));
     }
 
-    public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading) {
+    public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading, String status) {
         var accountRelation = Map.of("Username__c", username);
         var bookRelation = Map.of("ISBN__c", isbn);
-        return new ReadingRecord(reading.chapterReading(), reading.readingPercentage(), reading.isQuizANswered(),
-                accountRelation, bookRelation);
+        var pagesRead = "NotStarted".equals(status) ? Integer.valueOf(0) : reading.pagesRead();
+        return new ReadingRecord(reading.chapterReading(), pagesRead, reading.readingPercentage(), reading.isQuizAnswered(),
+                accountRelation, bookRelation, status);
     }
 }

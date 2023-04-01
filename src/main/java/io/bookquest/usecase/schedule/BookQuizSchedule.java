@@ -25,6 +25,7 @@ import java.util.Map;
 import static java.util.concurrent.CompletableFuture.runAsync;
 
 @Component
+@SuppressWarnings(value = "unchecked")
 public class BookQuizSchedule {
 
     @Autowired

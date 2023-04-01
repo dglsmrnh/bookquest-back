@@ -6,5 +6,10 @@ import java.math.BigDecimal;
 
 public record ReadingEntrypoint(@JsonProperty("reading_chapter") Integer chapterReading,
                                 @JsonProperty("reading_percentage") BigDecimal readingPercentage,
-                                @JsonProperty("quiz_answered") boolean isQuizANswered) {
+                                @JsonProperty("pages_read") Integer pagesRead,
+                                @JsonProperty("quiz_answered") boolean isQuizAnswered) {
+
+    public ReadingEntrypoint(boolean isQuizAnswered) {
+        this(null, null, null, isQuizAnswered);
+    }
 }
