@@ -4,7 +4,6 @@ import io.bookquest.entrypoint.v1.dto.AnswerEntrypoint;
 import io.bookquest.entrypoint.v1.dto.BookQuizEntrypoint;
 import io.bookquest.usecase.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -18,7 +18,7 @@ public class BotController {
     @GetMapping("/users/{username}/bot-options")
     public ResponseEntity<Object> getAllClassesOptions(@PathVariable("username") String username) {
         botService.getAllAvaiableClass(username);
-        var available_classes = Map.of("available_classes", List.of("Aventureiro, Historiador"));
-        return ResponseEntity.ok(available_classes);
+        var availableClasses = Map.of("available_classes", List.of("Aventureiro, Historiador"));
+        return ResponseEntity.ok(availableClasses);
     }
 }
