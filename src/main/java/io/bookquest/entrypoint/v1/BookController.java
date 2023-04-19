@@ -18,6 +18,10 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @GetMapping("/log")
+    public void getLog(){
+    }
+
     @GetMapping("/books")
     public BookEntrypoint getBook(@RequestParam(value = "isbn", required = false) String isbn,
                                   @RequestParam(value = "title", required = false) String bookTitle) {

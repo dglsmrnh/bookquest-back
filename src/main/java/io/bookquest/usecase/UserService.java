@@ -3,6 +3,7 @@ package io.bookquest.usecase;
 import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.CategoryRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
+import io.bookquest.entrypoint.v1.mapper.BookMapper;
 import io.bookquest.entrypoint.v1.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,6 +82,6 @@ public class UserService {
     }
 
     public void updateUser(String idUser, UserEntrypoint user) {
-
+        databaseRepository.saveCreate(idUser, UserMapper.updateInfo(user));
     }
 }
