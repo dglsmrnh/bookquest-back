@@ -31,7 +31,7 @@ public class BookService {
     private OpenLibraryClient openLibraryClient;
 
     @Autowired
-    private DatabaseRepository databaseRepository;
+    private RepositoryCentralized databaseRepository;
 
     public BookEntrypoint processBook(String isbn, String title) {
         if (nonNull(title)) {

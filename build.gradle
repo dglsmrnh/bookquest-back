@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -23,6 +24,7 @@ dependencies {
 	implementation 'software.amazon.awssdk:auth:2.20.14'
 	implementation 'br.com.caelum.stella:caelum-stella-boleto:2.1.6'
 	implementation 'com.lowagie:itext:2.1.7'
+	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
