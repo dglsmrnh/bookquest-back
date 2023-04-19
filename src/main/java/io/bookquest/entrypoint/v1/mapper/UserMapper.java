@@ -23,4 +23,8 @@ public class UserMapper {
     public static UserDataTransfer updateXp(Integer xp) {
         return new UserDataTransfer(null, null, null, null, xp, null, null);
     }
+
+    public static UserDataTransfer updateInfo(UserEntrypoint user) {
+        return new UserDataTransfer(user.name(), Map.of("ExternalId__c", user.classe()));
+    }
 }
