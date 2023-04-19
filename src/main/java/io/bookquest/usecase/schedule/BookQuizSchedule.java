@@ -9,8 +9,6 @@ import io.bookquest.entrypoint.v1.integration.chatsonic.dto.ChatSonicDataTransfe
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
 import io.bookquest.entrypoint.v1.integration.database.dto.ObjectDataTransfer;
 import io.bookquest.entrypoint.v1.mapper.QuestionMapper;
-import io.bookquest.persistence.repository.BookRepository;
-import io.bookquest.persistence.repository.QuestionRepository;
 import io.bookquest.usecase.DatabaseRepository;
 import io.bookquest.usecase.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +28,6 @@ public class BookQuizSchedule {
 
     @Autowired
     private ChatSonicClient chatSonicClient;
-
-    @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
-    private QuestionRepository questionRepository;
 
     @Value("${write-sonic.api.key:}")
     private String apiKey;

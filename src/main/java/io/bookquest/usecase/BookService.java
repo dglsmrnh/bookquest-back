@@ -10,7 +10,6 @@ import io.bookquest.entrypoint.v1.integration.openlibrary.OpenLibraryClient;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.BookOpenLibrary;
 import io.bookquest.entrypoint.v1.integration.openlibrary.dto.EnvelopeData;
 import io.bookquest.entrypoint.v1.mapper.BookMapper;
-import io.bookquest.persistence.repository.BookRepository;
 import io.bookquest.usecase.categories.CategoriesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,9 +29,6 @@ public class BookService {
 
     @Autowired
     private OpenLibraryClient openLibraryClient;
-
-    @Autowired
-    private BookRepository repository;
 
     @Autowired
     private DatabaseRepository databaseRepository;
