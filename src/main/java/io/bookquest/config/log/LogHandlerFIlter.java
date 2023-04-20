@@ -21,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@Configuration
 public class LogHandlerFIlter extends OncePerRequestFilter {
 
     @Autowired

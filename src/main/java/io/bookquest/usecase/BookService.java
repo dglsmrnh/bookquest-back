@@ -52,17 +52,16 @@ public class BookService {
                 .stream().findFirst();
 
         if (readingGet.isEmpty()) {
+            validateInputNewReading(reading);
             databaseRepository.saveReading(username, isbn, reading, "NotStarted");
             return;
         }
 
         ReadingRecord readingValue = readingGet.get();
-
         int pagesRead = readingValue.pagesRead() != null ? readingValue.pagesRead() : 0;
-
         Integer pages = processBook(isbn, null).pages() ;
 
-        if (isValidToUpdate(reading, readingValue, pagesRead, pages))
+        if (isInvalidToUpdate(reading, readingValue, pagesRead, pages))
             throw new ResponseStatusException(UNPROCESSABLE_ENTITY,
                     "Você não pode atualizar esse recurso, status da entidade: ".concat(readingValue.status()));
 
@@ -78,7 +77,12 @@ public class BookService {
         }
     }
 
-    private static boolean isValidToUpdate(ReadingEntrypoint reading, ReadingRecord readingValue, int pagesRead, Integer pages) {
+    private static void validateInputNewReading(ReadingEntrypoint reading) {
+        if(reading.isQuizAnswered())
+            throw new ResponseStatusException(UNPROCESSABLE_ENTITY);
+    }
+
+    private static boolean isInvalidToUpdate(ReadingEntrypoint reading, ReadingRecord readingValue, int pagesRead, Integer pages) {
         return pagesRead > reading.pagesRead() || reading.pagesRead() > pages
                 || readingValue.status().equalsIgnoreCase("WaitingValidation")
                 || readingValue.status().equalsIgnoreCase("Completed");
