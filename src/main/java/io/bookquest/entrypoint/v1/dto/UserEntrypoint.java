@@ -7,10 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record UserEntrypoint(
-        @NotNull
 
         @JsonProperty("username") String username,
-        @NotNull
         @JsonProperty("password") String senha,
         @NotNull
 

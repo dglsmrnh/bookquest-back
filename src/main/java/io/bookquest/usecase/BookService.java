@@ -66,9 +66,9 @@ public class BookService {
                     "Você não pode atualizar esse recurso, status da entidade: ".concat(readingValue.status()));
 
         if (reading.pagesRead().equals(pages)) {
-            Integer userXp = databaseRepository.getUser(username).levelXp();
+            Integer userXp = databaseRepository.getUser(username).getLevelXp();
             int xp = reading.pagesRead() * 5 / 100;
-            var userUpdateXP = new UserDataTransfer(null, null, null, null,  xp + userXp, null, null);
+            var userUpdateXP = new UserDataTransfer(xp + userXp);
 
             databaseRepository.saveCreate(username, userUpdateXP);
             databaseRepository.saveReading(username, isbn, reading, "WaitingValidation");

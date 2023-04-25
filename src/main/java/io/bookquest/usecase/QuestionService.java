@@ -59,7 +59,7 @@ public class QuestionService {
             var user = databaseRepository.getUser(username);
             int xpByQuestion = bookPresent.getXp() / questions.size();
             int xpGained = xpByQuestion * rightAnwers.get();
-            var userUpdated = UserMapper.updateXp(user.levelXp() + xpGained);
+            var userUpdated = UserMapper.updateXp(user.getLevelXp() + xpGained);
             var reading = new ReadingEntrypoint(true);
             databaseRepository.saveReading(username, bookPresent.getIsbn13(), reading, "Completed");
             databaseRepository.saveCreate(username, userUpdated);
