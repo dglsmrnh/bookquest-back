@@ -1,5 +1,6 @@
 package io.bookquest.entrypoint.v1;
 
+import io.bookquest.entrypoint.v1.dto.OTPEntrypoint;
 import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
 import io.bookquest.entrypoint.v1.integration.mail.MailClient;
 import io.bookquest.usecase.UserService;
@@ -60,10 +61,9 @@ public class UserController {
         userService.updateUser(username, user);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping("users/{username}/otps")
-    public ResponseEntity<Void> sendOtp(@PathVariable("username") String username,
-                                        @RequestParam(value = "otp_type", required = false) String otpType) {
-        userService.sendOtp(username);
+    @PostMapping("/otps")
+    public ResponseEntity<Void> sendOtp(@RequestBody OTPEntrypoint otpEntrypoint) {
+        userService.sendOtp(otpEntrypoint.email());
         return ResponseEntity.ok().build();
     }
 }

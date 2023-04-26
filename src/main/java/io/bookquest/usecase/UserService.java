@@ -46,7 +46,7 @@ public class UserService {
 
     @Value("${mail.courier.key}")
     private String courierKey;
-    
+
     //pending bcrypt to save e compare
     public String login(String username, String password) {
         var user = databaseRepository.getUser(username);
@@ -102,16 +102,20 @@ public class UserService {
         return UserMapper.toEntrypoint(user, userClass.name());
     }
 
+    public String getUserByEmail(String email) {
+        return databaseRepository.getUserByEmail(email).getName();
+    }
+
     public void updateUser(String idUser, UserEntrypoint user) {
         databaseRepository.saveCreate(idUser, UserMapper.updateInfo(user));
     }
 
-    public void sendOtp(String username) {
-        var user = getUser(username);
+    public void sendOtp(String email) {
+        var user = getUserByEmail(email);
         var otpNumber = RANDOM.nextInt(0, 999999);
 
-        var toMail = Map.of("email", user.email());
-        var dataVariable = Map.of("recipientName", user.name(), "otpCode", otpNumber);
+        var toMail = Map.of("email", email);
+        var dataVariable = Map.of("recipientName", user, "otpCode", otpNumber);
         var messageMailDto = new MessageMailDto(toMail, dataVariable);
         var mailDto = new MailDto(messageMailDto);
         mailClient.sendMail(mailDto, "Bearer ".concat(courierKey));
