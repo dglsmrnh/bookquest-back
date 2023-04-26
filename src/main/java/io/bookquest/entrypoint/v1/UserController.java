@@ -1,6 +1,8 @@
 package io.bookquest.entrypoint.v1;
 
+import io.bookquest.entrypoint.v1.dto.OTPEntrypoint;
 import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
+import io.bookquest.entrypoint.v1.integration.mail.MailClient;
 import io.bookquest.usecase.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
+import java.util.Random;
 
 import static java.net.URI.create;
 
@@ -27,9 +30,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody UserEntrypoint userEntrypoint) {
-        userService.login(userEntrypoint.username(), userEntrypoint.senha());
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<Object> login(@RequestBody UserEntrypoint userEntrypoint) {
+        var token = userService.login(userEntrypoint.username(), userEntrypoint.senha());
+        var response = Map.of("token", token);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users/{username}")
@@ -56,5 +60,10 @@ public class UserController {
                                                @RequestBody UserEntrypoint user) {
         userService.updateUser(username, user);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/otps")
+    public ResponseEntity<Void> sendOtp(@RequestBody OTPEntrypoint otpEntrypoint) {
+        userService.sendOtp(otpEntrypoint.email());
+        return ResponseEntity.ok().build();
     }
 }

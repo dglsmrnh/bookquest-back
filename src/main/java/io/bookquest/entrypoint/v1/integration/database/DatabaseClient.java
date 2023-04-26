@@ -1,5 +1,6 @@
 package io.bookquest.entrypoint.v1.integration.database;
 
+import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.*;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,7 +19,7 @@ public interface DatabaseClient {
 
     @GetMapping("/sobjects/Book__c/ISBN__c/{isbn13}")
     BookDataTransfer getBook(@PathVariable("isbn13") String isbn13,
-                                         @RequestHeader("Authorization") String authToken);
+                             @RequestHeader("Authorization") String authToken);
 
     @PatchMapping("/composite/sobjects/Product2/ExternalId__c")
     List<Map<String, Object>> saveOrUpdateCategories(@RequestBody RecordDataTransfer book,
@@ -40,7 +41,7 @@ public interface DatabaseClient {
     @GetMapping(value = "/sobjects/Product2/{id}", consumes = "application/json")
     @Cacheable("userClassOrCategory")
     CategoryRecord getClass(@PathVariable("id") String id,
-                             @RequestHeader("Authorization") String authToken);
+                            @RequestHeader("Authorization") String authToken);
 
     @PatchMapping("/sobjects/Reading__c/ExternalId__c/{externalId}")
     @CacheEvict(value = "user", allEntries = true)
@@ -60,5 +61,8 @@ public interface DatabaseClient {
     Map<String, Object> saveQuiz(@RequestBody QuizRecord reading,
                                  @RequestHeader("Authorization") String authToken);
 
+    @GetMapping(value = "/sobjects/Account/Username__c/{email}", consumes = "application/json")
+    UserDataTransfer getUserByEmail(@PathVariable("email") String email,
+                                  @RequestHeader("Authorization") String authToken);
 
 }

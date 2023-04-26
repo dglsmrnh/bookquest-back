@@ -1,6 +1,5 @@
 package io.bookquest.config.log;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bookquest.config.integration.LogClient;
 import jakarta.servlet.FilterChain;
@@ -10,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -18,10 +17,7 @@ import software.amazon.awssdk.utils.IoUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
-@Configuration
 public class LogHandlerFIlter extends OncePerRequestFilter {
 
     @Autowired
@@ -44,12 +40,11 @@ public class LogHandlerFIlter extends OncePerRequestFilter {
 
         content.copyBodyToResponse();
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                var logData = new LogData(requestBody, responseBody);
-                logClient.log(logApiKey, logData);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            var logData = new LogData(requestBody, responseBody);
+            logClient.log(logApiKey, logData);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

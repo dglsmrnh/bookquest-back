@@ -42,25 +42,25 @@ public class QuestionService {
 
     public List<BookQuizEntrypoint> validateAnswers(String idBook, String username, List<String> answers) {
         var questions = getQuestions(idBook, false);
-        var rightAnwers = new AtomicInteger();
+        if (questions.size() != answers.size())
+            throw new RuntimeException();
 
-        questions.forEach(quiz -> {
-            answers.forEach(answer -> {
-                if (answer.equalsIgnoreCase(quiz.getCorrectAnswer())) {
-                    quiz.setRightOption(true);
-                    rightAnwers.set(rightAnwers.incrementAndGet());
-                }
-            });
-        });
+        var rightAnwers = new AtomicInteger();
+        questions.forEach(quiz -> answers.forEach(answer -> {
+            if (answer.equalsIgnoreCase(quiz.getCorrectAnswer())) {
+                quiz.setRightOption(true);
+                rightAnwers.set(rightAnwers.incrementAndGet());
+            }
+        }));
 
         var book = databaseRepository.getBook(idBook);
         book.ifPresent(bookPresent -> {
-            isReadingOfBookCompleted(username, bookPresent);
+            isReadingOfBookValid(username, bookPresent);
             var user = databaseRepository.getUser(username);
             int xpByQuestion = bookPresent.getXp() / questions.size();
             int xpGained = xpByQuestion * rightAnwers.get();
-            var userUpdated = UserMapper.updateXp(user.levelXp() + xpGained);
-            var reading = new ReadingEntrypoint( true);
+            var userUpdated = UserMapper.updateXp(user.getLevelXp() + xpGained);
+            var reading = new ReadingEntrypoint(true);
             databaseRepository.saveReading(username, bookPresent.getIsbn13(), reading, "Completed");
             databaseRepository.saveCreate(username, userUpdated);
         });
@@ -68,12 +68,15 @@ public class QuestionService {
         return questions;
     }
 
-    private void isReadingOfBookCompleted(String username, BookDataTransfer bookPresent) {
+    private void isReadingOfBookValid(String username, BookDataTransfer bookPresent) {
         databaseRepository.getReading(username, bookPresent.getIsbn13())
-                .stream().findFirst().ifPresent(reading -> {
-                    if (reading.status().equals("Completed")) {
+                .stream().findFirst()
+                .ifPresentOrElse(reading -> {
+                    if (!reading.status().equals("WaitingValidation")) {
                         throw new ResponseStatusException(UNPROCESSABLE_ENTITY);
                     }
+                }, () -> {
+                    throw new ResponseStatusException(UNPROCESSABLE_ENTITY);
                 });
     }
 }

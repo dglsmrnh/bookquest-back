@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bookquest.entrypoint.v1.dto.ReadingEntrypoint;
+import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.ApexClient;
 import io.bookquest.entrypoint.v1.integration.database.DatabaseClient;
 import io.bookquest.entrypoint.v1.integration.database.dto.*;
@@ -160,6 +161,10 @@ public class DatabaseRepository {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public UserDataTransfer getUserByEmail(String email) {
+        return databaseClient.getUserByEmail(email, getToken());
     }
 }
 

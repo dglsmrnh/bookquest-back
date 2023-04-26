@@ -24,8 +24,12 @@ dependencies {
 	implementation 'software.amazon.awssdk:auth:2.20.14'
 	implementation 'br.com.caelum.stella:caelum-stella-boleto:2.1.6'
 	implementation 'com.lowagie:itext:2.1.7'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 dependencyManagement {

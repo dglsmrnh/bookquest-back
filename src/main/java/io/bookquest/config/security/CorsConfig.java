@@ -1,4 +1,4 @@
-package io.bookquest.config;
+package io.bookquest.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
