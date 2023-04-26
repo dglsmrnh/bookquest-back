@@ -37,6 +37,7 @@ public class UserMapper {
         return new UserDataTransfer()
                 .setName(user.name())
                 .setEmail(user.email())
+                .setSenha(user.senha())
                 .setClasse(classe);
     }
 }

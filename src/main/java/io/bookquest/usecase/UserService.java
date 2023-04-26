@@ -107,6 +107,10 @@ public class UserService {
     }
 
     public void updateUser(String idUser, UserEntrypoint user) {
+        if (user.senha() != null) {
+            // verify if user has otp available e validate
+        }
+
         databaseRepository.saveCreate(idUser, UserMapper.updateInfo(user));
     }
 
@@ -119,5 +123,10 @@ public class UserService {
         var messageMailDto = new MessageMailDto(toMail, dataVariable);
         var mailDto = new MailDto(messageMailDto);
         mailClient.sendMail(mailDto, "Bearer ".concat(courierKey));
+    }
+
+    public void validateOtp(String otpNumber) {
+
+
     }
 }
