@@ -66,4 +66,10 @@ public class UserController {
         userService.sendOtp(otpEntrypoint.email());
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/otps")
+    public ResponseEntity<Void> validateOtp(@RequestBody OTPEntrypoint otpEntrypoint) {
+        userService.validateOtp(otpEntrypoint);
+        return ResponseEntity.ok().build();
+    }
 }

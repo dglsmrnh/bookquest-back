@@ -61,7 +61,7 @@ public interface DatabaseClient {
     Map<String, Object> saveQuiz(@RequestBody QuizRecord reading,
                                  @RequestHeader("Authorization") String authToken);
 
-    @GetMapping(value = "/sobjects/Account/Username__c/{email}", consumes = "application/json")
+    @GetMapping(value = "/sobjects/Account/Email__c/{email}", consumes = "application/json")
     UserDataTransfer getUserByEmail(@PathVariable("email") String email,
                                   @RequestHeader("Authorization") String authToken);
 
