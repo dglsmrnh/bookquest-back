@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class TokenService {
 
@@ -28,6 +30,8 @@ public class TokenService {
     private String token;
 
     public String getToken() {
+        if (Objects.isNull(token))
+            setToken();
         return token;
     }
 
