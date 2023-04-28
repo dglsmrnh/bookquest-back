@@ -1,0 +1,799 @@
+{
+	"info": {
+		"_postman_id": "de6c40aa-6ee6-4bf7-a0bc-18e744230bd8",
+		"name": "BookQuest BFF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"tails\",\n    \"password\": \"tailsfox\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25pYyIsImlhdCI6MTY4MjQ2MTY3NiwiZXhwIjoxNjgyNTYxMTc2fQ.sgQB4SLR0hnG9yPZcpd2IWYtMYQmGIylVC9VEwCBZ6A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/tails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"tails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0YWlscyIsImlhdCI6MTY4MjQ2MzIxMSwiZXhwIjoxNjgyNTYyNzExfQ.mh5-liCfHupvbRnWAgyjZF4k7JgqnjKSVLtkvGjyf6c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books?title=O hobbit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "O hobbit"
+						},
+						{
+							"key": "isbn",
+							"value": "9780061233845",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book Questions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25pYyIsImlhdCI6MTY4MjQ2MTY3NiwiZXhwIjoxNjgyNTYxMTc2fQ.sgQB4SLR0hnG9yPZcpd2IWYtMYQmGIylVC9VEwCBZ6A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books/a008Y00000kNE60QAG/questions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"a008Y00000kNE60QAG",
+						"questions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Class Options",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/killua/bot-options",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"killua",
+						"bot-options"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25pYyIsImlhdCI6MTY4MjQ2MTY3NiwiZXhwIjoxNjgyNTYxMTc2fQ.sgQB4SLR0hnG9yPZcpd2IWYtMYQmGIylVC9VEwCBZ6A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"Baleio\",\n    \"name\": \"Baleio the baleia\",\n    \"password\": \"ball\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post User OTP",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25pYyIsImlhdCI6MTY4MjQ2MTY3NiwiZXhwIjoxNjgyNTYxMTc2fQ.sgQB4SLR0hnG9yPZcpd2IWYtMYQmGIylVC9VEwCBZ6A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"sssimiao10@gmail.com\",\n    \"otp_type\": \"email\",\n    \"phone\": \"4002-8922\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/otps",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"otps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shutting Down",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25pYyIsImlhdCI6MTY4MjQ2MTY3NiwiZXhwIjoxNjgyNTYxMTc2fQ.sgQB4SLR0hnG9yPZcpd2IWYtMYQmGIylVC9VEwCBZ6A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"sssimiao10@gmail.com\",\n    \"otp_type\": \"email\",\n    \"phone\": \"4002-8922\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/actuator/shutdown",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"shutdown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0YWlscyIsImlhdCI6MTY4MjQ2NDkwMCwiZXhwIjoxNjgyNTY0NDAwfQ.UdLeuf1mU5QqkVUn1upQfx6rI5kbLM4sEWwXcbkPTlY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Baleio\",\n    \"email\": \"sssimiao10@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/baleio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"baleio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/samuel/Downloads/spike.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/sonic/images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"sonic",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/gon/images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"gon",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH reading",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0YWlscyIsImlhdCI6MTY4MjQ2MzIxMSwiZXhwIjoxNjgyNTYyNzExfQ.mh5-liCfHupvbRnWAgyjZF4k7JgqnjKSVLtkvGjyf6c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reading_chapter\": 0,\n    \"reading_percentage\": 0.0,\n    \"pages_read\": 290,\n    \"quiz_answered\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/readings/tails-9788416884117",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"readings",
+						"tails-9788416884117"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": 10.0,\n    \"payment_type\": \"boleto\",\n    \"action\": \"BUY_PREMIUM_ACCOUNT\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/killua/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"killua",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Book Questions Answer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0YWlscyIsImlhdCI6MTY4MjQ2MzIxMSwiZXhwIjoxNjgyNTYyNzExfQ.mh5-liCfHupvbRnWAgyjZF4k7JgqnjKSVLtkvGjyf6c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"answers\": [\n        \"Bilbo Bolseiro\",\n        \"Thorin Escudo de Carvalho\",\n        \"Smaug\",\n        \"Moria\",\n        \"Frodo Bolseiro\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/tails/books/a008Y00000kNE60QAG/questions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"tails",
+						"books",
+						"a008Y00000kNE60QAG",
+						"questions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get book from user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25pYyIsImlhdCI6MTY4MjQ2MTY3NiwiZXhwIjoxNjgyNTYxMTc2fQ.sgQB4SLR0hnG9yPZcpd2IWYtMYQmGIylVC9VEwCBZ6A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/sonic/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"sonic",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get forum from book",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books/a008Y00000iQ22TQAS/forums",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"a008Y00000iQ22TQAS",
+						"forums"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Forum",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"discussion\": \"o que vocês sentiram falta nesse livro?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books/a008Y00000iQ22TQAS/forums",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"a008Y00000iQ22TQAS",
+						"forums"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Forum",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"discussion\": \"o que vocês sentiram falta nesse livro?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books/a008Y00000iQ22TQAS/forums/873232",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"a008Y00000iQ22TQAS",
+						"forums",
+						"873232"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Comment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\": \"senti falta de mais presença dos anões nas batalhas\",\n    \"name\": \"KIllua\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books/a008Y00000iQ22TQAS/forums/873232/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"a008Y00000iQ22TQAS",
+						"forums",
+						"873232",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Comment",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\": \"senti falta de mais presença dos anões nas batalhas\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books/a008Y00000iQ22TQAS/forums/873232/comments/8366212",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"a008Y00000iQ22TQAS",
+						"forums",
+						"873232",
+						"comments",
+						"8366212"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Comment",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"action\": \"UP_VOTE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/books/a008Y00000iQ22TQAS/forums/873232/comments/8366212",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"books",
+						"a008Y00000iQ22TQAS",
+						"forums",
+						"873232",
+						"comments",
+						"8366212"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"message\": \"test message\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://log-api.newrelic.com/log/v1?Api-Key=902495912200dd144546adb27cf85613FFFFNRAL",
+					"protocol": "https",
+					"host": [
+						"log-api",
+						"newrelic",
+						"com"
+					],
+					"path": [
+						"log",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "Api-Key",
+							"value": "902495912200dd144546adb27cf85613FFFFNRAL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"message\": \"test message\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://log-api.newrelic.com/log/v1?Api-Key=902495912200dd144546adb27cf85613FFFFNRAL",
+					"protocol": "https",
+					"host": [
+						"log-api",
+						"newrelic",
+						"com"
+					],
+					"path": [
+						"log",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "Api-Key",
+							"value": "902495912200dd144546adb27cf85613FFFFNRAL"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
