@@ -2,6 +2,7 @@ package io.bookquest.usecase;
 
 import io.bookquest.config.security.JwtComponent;
 import io.bookquest.config.security.UserSecurity;
+import io.bookquest.entrypoint.v1.dto.OTPEntrypoint;
 import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.CategoryRecord;
 import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
@@ -119,5 +120,9 @@ public class UserService {
         var messageMailDto = new MessageMailDto(toMail, dataVariable);
         var mailDto = new MailDto(messageMailDto);
         mailClient.sendMail(mailDto, "Bearer ".concat(courierKey));
+    }
+
+    public void validateOtp(OTPEntrypoint otpEntrypoint) {
+        // TODO
     }
 }
