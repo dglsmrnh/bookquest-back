@@ -30,7 +30,6 @@ public class JwtComponent {
     private static final Logger LOG = LoggerFactory.getLogger(JwtComponent.class.getName());
 
     public String extractUsername(String token) {
-        LOG.info(token);
         return extractClaim(token, Claims::getSubject);
     }
 
