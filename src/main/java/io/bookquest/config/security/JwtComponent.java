@@ -30,6 +30,8 @@ public class JwtComponent {
     private static final Logger LOG = LoggerFactory.getLogger(JwtComponent.class.getName());
 
     public String extractUsername(String token) {
+        LOG.info(token);
+        System.out.println(token);
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -71,8 +73,6 @@ public class JwtComponent {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        LOG.info("token: {}", token);
-        LOG.info(token);
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
