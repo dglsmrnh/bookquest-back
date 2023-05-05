@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ public class JwtComponent {
     private long jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
+
+    private static final Logger LOG = LoggerFactory.getLogger(JwtComponent.class.getName());
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -67,6 +71,8 @@ public class JwtComponent {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
+        LOG.info("token: {}", token);
+        LOG.info(token);
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
