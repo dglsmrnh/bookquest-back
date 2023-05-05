@@ -31,7 +31,6 @@ public class JwtComponent {
 
     public String extractUsername(String token) {
         LOG.info(token);
-        System.out.println(token);
         return extractClaim(token, Claims::getSubject);
     }
 

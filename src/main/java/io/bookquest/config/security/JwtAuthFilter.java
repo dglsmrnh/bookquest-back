@@ -33,7 +33,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        var jwtToken = authHeader.substring(7);
+        var jwtNormalize = authHeader.substring(7).split(",");
+        var jwtToken = jwtNormalize[0];
         var username = jwtUtils.extractUsername(jwtToken);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = jpaUserDetailsService.loadUserByUsername(username);
