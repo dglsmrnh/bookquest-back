@@ -100,7 +100,7 @@ public class UserService {
     public UserEntrypoint getUser(String username) {
         var user = databaseRepository.getUser(username);
         CategoryRecord userClass = databaseRepository.getClass(user.getClasseOutput());
-        return UserMapper.toEntrypoint(user, userClass.name());
+        return UserMapper.toEntrypoint(user, userClass.name(), username);
     }
 
     public String getUserByEmail(String email) {

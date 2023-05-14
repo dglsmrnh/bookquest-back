@@ -1,6 +1,7 @@
 package io.bookquest.entrypoint.v1.integration.database;
 
 import io.bookquest.entrypoint.v1.integration.database.dto.BookDataTransfer;
+import io.bookquest.entrypoint.v1.integration.database.dto.ReadingRecord;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,4 +20,8 @@ public interface ApexClient {
                                    @RequestParam("isbn_10") String isbn10,
                                    @RequestParam("isbn_13") String isbn13,
                                    @RequestHeader("Authorization") String token);
+
+    @GetMapping("/readings")
+    List<ReadingRecord> getBooksFromUser(@RequestParam("username") String username,
+                                         @RequestHeader("Authorization") String token);
 }

@@ -22,8 +22,8 @@ public class UserMapper {
                 .setAccountType("Free");
     }
 
-    public static UserEntrypoint toEntrypoint(UserDataTransfer user, String userClass) {
-        return new UserEntrypoint(null, null, user.getName(), userClass, user.getCoins(), user.getLevelXp(), user.getAccountType(), user.getEmail());
+    public static UserEntrypoint toEntrypoint(UserDataTransfer user, String userClass, String username) {
+        return new UserEntrypoint(username, null, user.getName(), userClass, user.getCoins(), user.getLevelXp(), user.getAccountType(), user.getEmail());
     }
 
     public static UserDataTransfer updateXp(Integer xp) {

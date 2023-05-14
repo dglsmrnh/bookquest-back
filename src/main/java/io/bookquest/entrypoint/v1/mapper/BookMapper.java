@@ -61,9 +61,24 @@ public class BookMapper {
 
     public static ReadingRecord toNewReadingRecord(String username, String isbn, ReadingEntrypoint reading, String status) {
         var accountRelation = Map.of("Username__c", username);
-        var bookRelation = Map.of("ISBN__c", isbn);
+        Map<String, Object> bookRelation = Map.of("ISBN__c", isbn);
         var pagesRead = "NotStarted".equals(status) ? Integer.valueOf(0) : reading.pagesRead();
         return new ReadingRecord(reading.chapterReading(), pagesRead, reading.readingPercentage(), reading.isQuizAnswered(),
                 accountRelation, bookRelation, status);
+    }
+
+    public static List<ReadingEntrypoint> toListReading(List<ReadingRecord> reading) {
+        return reading.stream().map(BookMapper::toReadingDto).toList();
+    }
+
+    private static ReadingEntrypoint toReadingDto(ReadingRecord reading) {
+        var id = String.valueOf(reading.bookRelation().get("id"));
+        var bookName = String.valueOf(reading.bookRelation().get("Name"));
+        var isbn13 = String.valueOf(reading.bookRelation().get("ISBN13__c"));
+        var isbn10 = String.valueOf(reading.bookRelation().get("ISBN10__c"));
+        Integer xp = (int) reading.bookRelation().get("XP__c");
+        Integer pages = (int) reading.bookRelation().get("Pages__c");
+        BookEntrypoint bookEntrypoint = new BookEntrypoint(id, bookName, xp, pages, isbn13, isbn10, List.of());
+        return new ReadingEntrypoint(reading.chapterReading(), reading.readingPercentage(), reading.pagesRead(), reading.isQuizAnswered(), reading.status(), bookEntrypoint);
     }
 }

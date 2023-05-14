@@ -6,16 +6,21 @@ import org.jetbrains.annotations.NotNull;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record UserEntrypoint(
+public record UserEntrypoint(@JsonProperty("username") String username,
+                             @JsonProperty("password") String senha,
+                             @NotNull
+                             @JsonProperty("name") String name,
+                             @JsonProperty("class") String classe,
+                             @JsonProperty("coins") Integer coins,
+                             @JsonProperty("level_xp") Integer levelXp,
+                             @JsonProperty("account_type") String accountType,
+                             @JsonProperty("email") String email) {
 
-        @JsonProperty("username") String username,
-        @JsonProperty("password") String senha,
-        @NotNull
+    @JsonProperty("level")
+    public Integer getLevel() {
+        if (levelXp < 100)
+            return 1;
 
-        @JsonProperty("name") String name,
-        @JsonProperty("class") String classe,
-        @JsonProperty("coins") Integer coins,
-        @JsonProperty("level_xp") Integer levelXp,
-        @JsonProperty("account_type") String accountType,
-        @JsonProperty("email") String email) {
+        return (levelXp + 100) / 100;
+    }
 }

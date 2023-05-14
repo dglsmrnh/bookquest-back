@@ -162,8 +162,9 @@ public class BookService {
                 .toList();
     }
 
-    public void getBooksFromUser(String idUser, String pageSize, String page) {
-        List<ReadingRecord> reading = databaseRepository.getBookFromUser(idUser, pageSize, page);
+    public List<ReadingEntrypoint> getBooksFromUser(String idUser) {
+        List<ReadingRecord> reading = databaseRepository.getBookFromUser(idUser);
+        return BookMapper.toListReading(reading);
     }
 }
 

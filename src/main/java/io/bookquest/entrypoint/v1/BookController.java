@@ -26,11 +26,11 @@ public class BookController {
     }
 
     @GetMapping("/users/{idUser}/books")
-    public ResponseEntity<Object> getAllBookFromUser(@PathVariable("idUser") String idUser,
+    public ResponseEntity<List<ReadingEntrypoint>> getAllBookFromUser(@PathVariable("idUser") String idUser,
                                    @RequestParam(name = "page_size", required = false, defaultValue = "200") String pageSize,
                                    @RequestParam(name = "page", required = false, defaultValue = "200") String page) {
 
-        return ResponseEntity.ok(Map.of("books", List.of(Map.of("book_name", "O hobbit", "categories", List.of("ficção"), "pages_read", 190, "total_pages", 220, "xp", 235))));
+        return ResponseEntity.ok(bookService.getBooksFromUser(idUser));
     }
 
     @PatchMapping("/readings/{externalId}")
