@@ -2,6 +2,7 @@ package io.bookquest.entrypoint.v1;
 
 import io.bookquest.entrypoint.v1.dto.OTPEntrypoint;
 import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
+import io.bookquest.entrypoint.v1.integration.database.dto.KeyValue;
 import io.bookquest.entrypoint.v1.integration.mail.MailClient;
 import io.bookquest.usecase.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class UserController {
 
     @PostMapping("/users/{username}/images")
     public ResponseEntity<Object> saveAvatar(@PathVariable("username") String username,
-                                             @RequestParam(value = "file") MultipartFile file) {
+                                             @RequestBody KeyValue<String> file) {
         String key = userService.uploadFile(file, username);
         return ResponseEntity.ok(Map.of("s3_key", key));
     }

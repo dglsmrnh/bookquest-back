@@ -5,6 +5,7 @@ import io.bookquest.config.security.UserSecurity;
 import io.bookquest.entrypoint.v1.dto.OTPEntrypoint;
 import io.bookquest.entrypoint.v1.dto.UserEntrypoint;
 import io.bookquest.entrypoint.v1.integration.database.dto.CategoryRecord;
+import io.bookquest.entrypoint.v1.integration.database.dto.KeyValue;
 import io.bookquest.entrypoint.v1.integration.database.dto.UserDataTransfer;
 import io.bookquest.entrypoint.v1.integration.mail.MailClient;
 import io.bookquest.entrypoint.v1.integration.mail.dto.MailDto;
@@ -24,6 +25,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
@@ -65,14 +67,14 @@ public class UserService {
         databaseRepository.saveCreate(userEntrypoint.username(), user);
     }
 
-    public String uploadFile(MultipartFile file, String username) {
-        File fileObj = convertMultiPartFileToFile(file);
+    public String uploadFile(KeyValue<String> file, String username) {
         String fileName = username + "_image";
-        PutObjectRequest objectS3 = PutObjectRequest.builder()
+        File fileObj = convertBaseToFile(file, fileName);
+        var objectS3 = PutObjectRequest.builder()
                 .bucket("bookquest-images")
                 .key(fileName)
                 .build();
-        PutObjectResponse putObjectResponse = s3Client.putObject(objectS3, fileObj.toPath());
+        s3Client.putObject(objectS3, fileObj.toPath());
 
         return fileObj.delete() ? fileName : null;
     }
@@ -82,15 +84,13 @@ public class UserService {
         return Base64.getEncoder().encodeToString(s3Object.asByteArray());
     }
 
-    private File convertMultiPartFileToFile(MultipartFile file) {
-        if (Objects.isNull(file.getOriginalFilename()))
-            throw new RuntimeException("Arquivo sem nome");
-
-        String fileName = file.getOriginalFilename();
+    private File convertBaseToFile(KeyValue<String> file, String fileName) {
+        byte[] fileByte = Base64.getDecoder()
+                .decode(file.data().getBytes(StandardCharsets.UTF_8));
 
         File convertedFile = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
-            fos.write(file.getBytes());
+            fos.write(fileByte);
         } catch (IOException e) {
             throw new RuntimeException();
         }
