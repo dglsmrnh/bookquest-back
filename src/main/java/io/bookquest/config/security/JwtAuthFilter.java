@@ -33,8 +33,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         var jsonRequest = new HashMap<>();
         jsonRequest.put("auth", authHeader);
-        jsonRequest.put("content-type",request.getContentType());
-        if (request.getContentType().contains("multipart")) {
+        jsonRequest.put("content-type", request.getContentType());
+        if (request.getContentType() != null && request.getContentType().contains("multipart")) {
             jsonRequest.put("content-type", request.getContentType());
             String requestJson = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false).writeValueAsString(request.getParts());
             jsonRequest.put("request", requestJson);
